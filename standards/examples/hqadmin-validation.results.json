@@ -1,0 +1,316 @@
+{
+  "application_revision": "79c5225d25ebd8b93b9bc10a92ba4dfd46ed55e0",
+  "dependency_lock": {
+    "version": 1,
+    "dependencies": [
+      {
+        "source": {
+          "git": {
+            "remote": "https://github.com/OneHQ/tanka-lib-k8-onehq.git",
+            "subdir": ""
+          }
+        },
+        "version": "c34a0d696426e3a178fdb8587625f3100f8d46c2",
+        "sum": "BytRlBJA9N/676LrhZPvBbSN6WZtu8gALRwtQ3hDUkc="
+      },
+      {
+        "source": {
+          "git": {
+            "remote": "https://github.com/grafana/jsonnet-libs.git",
+            "subdir": "ksonnet-util"
+          }
+        },
+        "version": "1abcc571e0882164a917e848ae2d9426188bf016",
+        "sum": "0y3AFX9LQSpfWTxWKSwoLgbt0Wc9nnCwhMH2szKzHv0="
+      },
+      {
+        "source": {
+          "git": {
+            "remote": "https://github.com/jsonnet-libs/docsonnet.git",
+            "subdir": "doc-util"
+          }
+        },
+        "version": "bf6f08ae02a51c48bdcec4629b1c1a5a62c6f803",
+        "sum": "BrAL/k23jq+xy9oA7TWIhUx07dsA/QLm3g7ktCwe//U="
+      },
+      {
+        "source": {
+          "git": {
+            "remote": "https://github.com/jsonnet-libs/k8s-libsonnet.git",
+            "subdir": "1.35"
+          }
+        },
+        "version": "f66023fcddc92e89c3e81bd49c1f528a984505ef",
+        "sum": "B+1kudlxnkbH6warwOHHh+gmADl2w5VFJQ5D0SxcO6M="
+      }
+    ],
+    "legacyImports": false
+  },
+  "toolkit_revision": "e93dffdbb7e8c1687c11a45c53a929db01f0a8d9",
+  "assessment_script_sha256": "3a5dcc45a290a084b65770eb7f003e0e26d66f53e46ae5158bd4d378200f9fc8",
+  "targets": {
+    "hqadmin-staging": {
+      "graph": {
+        "resources": 37,
+        "nodes": 53,
+        "relationships": 129,
+        "unresolved": 15,
+        "templates": 1,
+        "kinds": {
+          "ConfigMap": 1,
+          "Deployment": 7,
+          "HorizontalPodAutoscaler": 2,
+          "Ingress": 4,
+          "Job": 2,
+          "PostgresCluster": 1,
+          "Role": 3,
+          "RoleBinding": 3,
+          "Secret": 6,
+          "Service": 5,
+          "ServiceAccount": 2,
+          "StatefulSet": 1
+        }
+      },
+      "service_selections": 5,
+      "baseline_service_overlap": {
+        "backendSvc": [
+          "backendDeploy",
+          "migrateDBJob"
+        ]
+      },
+      "app_secret_key_references_checked": 388,
+      "unresolved": [
+        {
+          "kind": "IngressClass",
+          "namespace": "",
+          "name": "kubernetes-nginx-public"
+        },
+        {
+          "kind": "StorageClass",
+          "namespace": "",
+          "name": "mini"
+        },
+        {
+          "kind": "ConfigMap",
+          "namespace": "iamhq-staging",
+          "name": "iamhq-staging-redis-config"
+        },
+        {
+          "kind": "Namespace",
+          "namespace": "",
+          "name": "iamhq-staging"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-staging",
+          "name": "aws-ecr-puller"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-staging",
+          "name": "iamhq-staging-db-superuser"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-staging",
+          "name": "iamhq-staging-goodjob-db-pguser-goodjob-admin-user-staging"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-staging",
+          "name": "iamhq-staging-goodjob-db-pguser-postgres"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-staging",
+          "name": "iamhq-staging-hqadmin-frontend-ingress-cert"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-staging",
+          "name": "iamhq-staging-hqadmin-v4-backend-ingress-cert"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-staging",
+          "name": "iamhq-staging-search-api-ingress-cert"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-staging",
+          "name": "iamhq-staging-websocket-ingress-cert"
+        },
+        {
+          "kind": "ServiceAccount",
+          "namespace": "hqadmin-main-pipeline",
+          "name": "build-bot"
+        },
+        {
+          "kind": "ServiceAccount",
+          "namespace": "iamhq-staging",
+          "name": "default"
+        },
+        {
+          "kind": "ServiceAccount",
+          "namespace": "iamhq-staging",
+          "name": "elastic-temporary-sa-iamhq-staging"
+        }
+      ]
+    },
+    "hqadmin-production": {
+      "graph": {
+        "resources": 37,
+        "nodes": 53,
+        "relationships": 129,
+        "unresolved": 15,
+        "templates": 1,
+        "kinds": {
+          "ConfigMap": 1,
+          "Deployment": 7,
+          "HorizontalPodAutoscaler": 2,
+          "Ingress": 4,
+          "Job": 2,
+          "PostgresCluster": 1,
+          "Role": 3,
+          "RoleBinding": 3,
+          "Secret": 6,
+          "Service": 5,
+          "ServiceAccount": 2,
+          "StatefulSet": 1
+        }
+      },
+      "service_selections": 5,
+      "baseline_service_overlap": {
+        "backendSvc": [
+          "backendDeploy",
+          "migrateDBJob"
+        ]
+      },
+      "app_secret_key_references_checked": 433,
+      "unresolved": [
+        {
+          "kind": "IngressClass",
+          "namespace": "",
+          "name": "kubernetes-nginx-public"
+        },
+        {
+          "kind": "StorageClass",
+          "namespace": "",
+          "name": "mini"
+        },
+        {
+          "kind": "ConfigMap",
+          "namespace": "iamhq-production",
+          "name": "iamhq-production-redis-config"
+        },
+        {
+          "kind": "Namespace",
+          "namespace": "",
+          "name": "iamhq-production"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-production",
+          "name": "aws-ecr-puller"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-production",
+          "name": "iamhq-production-db-superuser"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-production",
+          "name": "iamhq-production-goodjob-db-pguser-goodjob-admin-user-production"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-production",
+          "name": "iamhq-production-goodjob-db-pguser-postgres"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-production",
+          "name": "iamhq-production-hqadmin-frontend-ingress-cert"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-production",
+          "name": "iamhq-production-hqadmin-v4-backend-ingress-cert"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-production",
+          "name": "iamhq-production-search-api-ingress-cert"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "iamhq-production",
+          "name": "iamhq-production-websocket-ingress-cert"
+        },
+        {
+          "kind": "ServiceAccount",
+          "namespace": "hqadmin-main-pipeline",
+          "name": "build-bot"
+        },
+        {
+          "kind": "ServiceAccount",
+          "namespace": "iamhq-production",
+          "name": "default"
+        },
+        {
+          "kind": "ServiceAccount",
+          "namespace": "iamhq-production",
+          "name": "elastic-temporary-sa-iamhq-production"
+        }
+      ]
+    }
+  },
+  "installed_toolkit": {
+    "revision": "e93dffdbb7e8c1687c11a45c53a929db01f0a8d9",
+    "verified_files": 17
+  },
+  "shared_image": {
+    "status": "passed",
+    "tag": "toolkit-validation",
+    "changed_files": [
+      "environments/hqadmin-staging/staging-version.json"
+    ],
+    "image_consumers": [
+      "backendDeploy",
+      "backendDebugDeploy",
+      "goodjobDeploy",
+      "goodjobMasterDeploy",
+      "migrateDBJob"
+    ],
+    "migration_identity_and_four_gates_follow": true,
+    "unrelated_fields_identical": true,
+    "production_identical": true,
+    "default_identical": true
+  },
+  "component_only_control": {
+    "status": "passed",
+    "deployments_follow": [
+      "backendDeploy",
+      "backendDebugDeploy",
+      "goodjobDeploy",
+      "goodjobMasterDeploy"
+    ],
+    "migration_and_gates_keep_canonical_tag": true
+  },
+  "existing_format_check": {
+    "exit_code": 16,
+    "raw_output_withheld": true
+  },
+  "embedded_shell_syntax": {
+    "hqadmin-staging": 20,
+    "hqadmin-production": 20
+  },
+  "status": "scoped_compatibility_passed_with_baseline_gaps",
+  "limits": [
+    "Fresh resolution of declared refs, not a recovered production dependency lock",
+    "Existing formatting result reported separately from scoped acceptance",
+    "No Kubernetes schema, cluster, registry, AVP resolution, runtime or Cline run",
+    "Unresolved references require ownership/existence verification outside this offline assessment"
+  ]
+}

@@ -1,6 +1,6 @@
 # infra-team-toolkit
 
-Shared working conventions for infrastructure projects using Cline, Tanka and Jsonnet. Owner and sole maintainer: **@Darthcjba**. Development toolkit; one scoped Cline CLI pilot has passed. A release and a second application assessment remain pending.
+Shared working conventions for infrastructure projects using Cline, Tanka and Jsonnet. Owner and sole maintainer: **@Darthcjba**. Development toolkit; one scoped Cline CLI pilot and a second application's offline compatibility assessment have passed. Release review remains pending.
 
 **Start here:** the [team guide](docs/team-guide.md) covers prerequisites, application onboarding, Cline setup, daily changes, worked examples, resource maps, review evidence, upgrades and troubleshooting. Share it from a reviewed toolkit checkout; teammates do not need the project conversation.
 
@@ -22,7 +22,7 @@ See [governance](GOVERNANCE.md), [contributing](CONTRIBUTING.md), and [CODEOWNER
 
 The [application contract](standards/app-infrastructure.md) defines responsibilities and validation expectations while preserving existing consumer layouts and pinned APIs. Map the application's actual files to those responsibilities; working production resources do not need a directory migration to adopt the toolkit.
 
-The [reference mapping](standards/reference-applications/agencieshq-e2e-infra.md) distinguishes observed behavior from gaps. Step 1 inspection and Step 2 standard definition are documented. The [Jsonnet skill](skills/cjba-k8s-jsonnet/SKILL.md) follows the standard with explicit pinned-source precedence and revision-specific constructor guidance (Step 3). Its bundled library-source snapshot and supplied constructor guide remain unchanged. The [shared image worked example](standards/examples/shared-backend-image.md) provides executable checks, expected differences and recorded results (Step 4). The [Cline CLI pilot](standards/examples/cline-pilot.md) records the installed toolkit pin, one-file change and independent acceptance review (Step 5). Assessment of another application and a separate pipeline procedure remain pending.
+The [reference mapping](standards/reference-applications/agencieshq-e2e-infra.md) distinguishes observed behavior from gaps. Step 1 inspection and Step 2 standard definition are documented. The [Jsonnet skill](skills/cjba-k8s-jsonnet/SKILL.md) follows the standard with explicit pinned-source precedence and revision-specific constructor guidance (Step 3). Its bundled library-source snapshot and supplied constructor guide remain unchanged. The [shared image worked example](standards/examples/shared-backend-image.md) provides executable checks, expected differences and recorded results (Step 4). The [Cline CLI pilot](standards/examples/cline-pilot.md) records the installed toolkit pin, one-file change and independent acceptance review (Step 5). The [HQAdmin assessment](standards/examples/hqadmin-validation.md) validates a second layout with a different OneHQ revision, unchanged production output and explicit dependency/selector/external-resource gaps. It is offline evidence; Cline was not run on that app. The separate pipeline procedure (Step 6) remains pending.
 
 Run the example from this checkout against the documented clean reference revision with its locked dependencies available:
 
@@ -73,7 +73,7 @@ python3 -m unittest discover -s tests -v
 git diff --check
 ```
 
-The owner reviews changes, updates CHANGELOG.md, merges, and tags a release when ready. Start with one app and one reproducible change; test a second app before broader adoption. Toolkit tests do not validate Kubernetes manifests or production readiness.
+The owner reviews changes, updates CHANGELOG.md, merges, and tags a release when ready. Two application layouts have scoped evidence; review their recorded limits and establish each consumer's baseline before broader adoption. Toolkit tests do not validate Kubernetes manifests or production readiness.
 
 ## Upgrade and rollback
 

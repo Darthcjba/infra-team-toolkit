@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Validate HQAdmin as a second application layout using its declared OneHQ v1.0.14, isolated installation, full-resource image/gate comparisons and unchanged production output; add reproducible review tooling, recorded dependency lock/results and source mapping.
+- Document baseline Service-selector overlap, ignored-lock production provenance, external dependencies and existing formatting failures without modifying the application; extend team adoption guidance with those evidence boundaries.
+
 - Add a shareable team guide for prerequisites, onboarding, Cline setup, daily changes, examples/maps, review, upgrades/rollback and troubleshooting, with explicit evidence and compatibility limits.
 - Record a successful isolated Cline CLI pilot, its pinned toolkit/runtime/model invocation, canonical image edit, 107 application tests and independent full-resource acceptance review.
 - Add the reusable pilot task and document inherited snapshot whitespace plus recovered CLI/command-layer limitations; exclude authentication and raw agent/manifests from evidence.
