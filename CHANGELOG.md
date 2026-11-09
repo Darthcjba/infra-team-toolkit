@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add a shareable team guide for prerequisites, onboarding, Cline setup, daily changes, examples/maps, review, upgrades/rollback and troubleshooting, with explicit evidence and compatibility limits.
 - Record a successful isolated Cline CLI pilot, its pinned toolkit/runtime/model invocation, canonical image edit, 107 application tests and independent full-resource acceptance review.
 - Add the reusable pilot task and document inherited snapshot whitespace plus recovered CLI/command-layer limitations; exclude authentication and raw agent/manifests from evidence.
 - Add an offline Kubernetes resource mapper with interactive HTML inspection, JSON/Mermaid exports, typed references/selectors and optional explicitly inferred environment links.

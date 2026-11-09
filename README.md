@@ -2,6 +2,8 @@
 
 Shared working conventions for infrastructure projects using Cline, Tanka and Jsonnet. Owner and sole maintainer: **@Darthcjba**. Development toolkit; one scoped Cline CLI pilot has passed. A release and a second application assessment remain pending.
 
+**Start here:** the [team guide](docs/team-guide.md) covers prerequisites, application onboarding, Cline setup, daily changes, worked examples, resource maps, review evidence, upgrades and troubleshooting. Share it from a reviewed toolkit checkout; teammates do not need the project conversation.
+
 ## Responsibilities
 
 | Location | Owns | Current owner |
@@ -11,6 +13,7 @@ Shared working conventions for infrastructure projects using Cline, Tanka and Js
 | `standards/` | Application boundaries, examples and migration targets | @Darthcjba |
 | `templates/` | Consumer documentation starting points | @Darthcjba |
 | `scripts/` | Installation and setup checks | @Darthcjba |
+| `docs/` | Team onboarding and usage guide | @Darthcjba |
 | `README.md` | Setup, usage, ownership and upgrades | @Darthcjba |
 
 See [governance](GOVERNANCE.md), [contributing](CONTRIBUTING.md), and [CODEOWNERS](.github/CODEOWNERS). GitHub permissions are configured separately; these files do not change access or visibility.

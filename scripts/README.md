@@ -2,6 +2,8 @@
 
 Requires Python 3.9+ and Git. No third-party Python packages.
 
+For application setup and the full workflow around these commands, read the [team guide](../docs/team-guide.md). Scripts run from the toolkit checkout; the installer does not copy them into consumers.
+
 - `python3 scripts/check.py`: check the toolkit's required content and skill metadata.
 - `python3 scripts/install.py /path/to/app`: copy rules, skills and standards into a Git consumer and write a checksum manifest. Requires a clean, committed toolkit checkout. Refuses differing destination files and symlink destinations before writing.
 - `python3 scripts/install.py /path/to/app --check`: compare an installed consumer against this toolkit checkout. Does not write.
