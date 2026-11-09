@@ -4,7 +4,7 @@ Use this guide to adopt the toolkit in an infrastructure repository, make scoped
 
 Owner and sole toolkit maintainer: **Darthcjba**. This guide does not change repository access, review ownership or application delivery permissions. See [governance](../GOVERNANCE.md) and [contributing](../CONTRIBUTING.md) for maintenance decisions.
 
-**Current evidence:** the E2E reference has a worked image example and one passing Cline CLI pilot; HQAdmin has a passing scoped offline compatibility assessment with baseline gaps recorded. Existing application layouts remain supported through a file-responsibility mapping. A release, a VS Code extension pilot and a separate Tekton procedure remain pending. Application sizes, names, capabilities and directory structures are examples, not universal defaults.
+**Current evidence:** the E2E reference has a worked image example and one passing Cline CLI pilot; HQAdmin and ReadyGOP have passing scoped offline assessments with baseline gaps recorded. Existing application layouts remain supported through a file-responsibility mapping. A release, a VS Code extension pilot and a separate Tekton procedure remain pending. Application sizes, names, capabilities and directory structures are examples, not universal defaults.
 
 ## Contents
 
@@ -14,7 +14,7 @@ Owner and sole toolkit maintainer: **Darthcjba**. This guide does not change rep
 - [Set up Cline](#set-up-cline)
 - [Everyday change workflow](#everyday-change-workflow)
 - [Practice with the worked example](#practice-with-the-worked-example)
-- [Validate a second application layout](#validate-a-second-application-layout)
+- [Validate other application layouts](#validate-other-application-layouts)
 - [Generate a Kubernetes resource map](#generate-a-kubernetes-resource-map)
 - [Review and share evidence](#review-and-share-evidence)
 - [Upgrade and rollback](#upgrade-and-rollback)
@@ -32,6 +32,7 @@ Owner and sole toolkit maintainer: **Darthcjba**. This guide does not change rep
 | `scripts/install.py` | Conservative installation and installed-file checksum checks |
 | `scripts/worked-shared-image.py` | Reference-specific worked-change checks, with optional isolated app validation |
 | `scripts/validate-hqadmin.py` | Second-app offline image/relationship assessment against its recorded revision and dependency resolution |
+| `scripts/validate-readygop.py` | Third-app Rails/PGSync image probes, visibility/disable controls and namespace-aware checks |
 | `scripts/map-kubernetes.py` | An offline diagram with attributes and typed resource relationships |
 
 The OneHQ constructor library is a separate, application-pinned dependency. Toolkit installation does not install binaries or dependencies, authenticate Cline, edit `AGENTS.md`, deploy infrastructure or configure GitHub permissions. Scripts/templates stay in the toolkit checkout; the installer copies only rules, the Jsonnet skill and standards into the app.
@@ -103,6 +104,8 @@ At minimum, document:
 - Metadata/native patch locations, script side effects, exact offline checks and the separate delivery process.
 
 The [application contract](../standards/app-infrastructure.md) explains those responsibilities. The [E2E mapping](../standards/reference-applications/agencieshq-e2e-infra.md) and [HQAdmin mapping](../standards/reference-applications/hqadmin-infra.md) show different valid layouts. HQAdmin keeps most responsibilities together in per-environment values/main files. Read guidance explicitly when changing agents; Codex and other tools do not necessarily auto-load Cline-specific paths.
+
+The [ReadyGOP mapping](../standards/reference-applications/readygop-infra.md) adds a host app plus reusable PGSync module. Read its own architecture alongside the toolkit contract. Count manifested resources per target: hidden `::` declarations can remain internally referenced, and staging/production may intentionally expose different workloads. Verify global inputs and component disable paths separately; a guard on one Job can leave dependent gates behind.
 
 If the app ignores its dependency lock, record the missing production provenance. Resolve declared refs only in an isolated checkout and save the resulting lock with assessment evidence. A fresh render does not establish that production uses those dependencies. Preserve and flag baseline relationship overlaps or existing check failures separately from the requested change.
 
@@ -241,7 +244,7 @@ Save that block as a local Python launcher outside the app root and run it with 
 
 The [pilot protocol](../standards/examples/cline-pilot.md) and [result](../standards/examples/cline-pilot.results.json) show the expected one-file edit, intended consumers, independent comparison and exceptions. That pilot retained 36 resources per target, left PR output unchanged and passed 107 app tests. Those counts apply to the recorded revision, not every consumer.
 
-## Validate a second application layout
+## Validate other application layouts
 
 The [HQAdmin assessment](../standards/examples/hqadmin-validation.md) provides a
 reproducible second-app procedure, exact dependency lock, source mapping and
@@ -252,6 +255,15 @@ production output. The original checkout stays unchanged. It also records a
 backend/migration Service-selector overlap, external ownership gaps and a baseline
 formatting failure. This is offline compatibility evidence; no second-app Cline or
 production deployment was performed.
+
+The [ReadyGOP procedure](../standards/examples/readygop-validation.md) records the
+third app's existing ignored lock/vendor, copied without network or upgrade. Its
+[reviewer](../scripts/validate-readygop.py) separately changes Rails and PGSync core
+roles in each target, checking full differences and unchanged opposite-target output.
+It preserves hidden resources and records duplicate worker env entries, ignored
+global enable/disable input, incomplete reindex-only disable and renderer suspend
+precedence. Both environment maps use the existing mapper. The assessed source
+checkout stays unchanged; this is not another Cline or deployment pilot.
 
 ## Generate a Kubernetes resource map
 
@@ -325,4 +337,4 @@ There is no force-overwrite switch. Do not delete entire `.clinerules`, `.cline`
 
 Darthcjba maintains the toolkit and guide. When changing installer paths, commands, runtime guidance or accepted behavior, update this guide and the linked detailed procedure/evidence in the same review. Run toolkit checks per [CONTRIBUTING.md](../CONTRIBUTING.md); application behavior still needs representative app validation.
 
-The E2E CLI pilot and HQAdmin offline assessment now cover two layouts. Before broader adoption, review their limits, establish each consumer's dependency/external-resource baseline and select a reviewed toolkit revision. Keep future architecture and the pending separate Tekton procedure clearly separate from implemented features. See [README.md](../README.md) for current status and the detailed standards for the source contract.
+The E2E CLI pilot and HQAdmin/ReadyGOP offline assessments now cover three applications. Before broader adoption, review their limits, establish each consumer's dependency/external-resource baseline and select a reviewed toolkit revision. Keep future architecture and the pending separate Tekton procedure clearly separate from implemented features. See [README.md](../README.md) for current status and the detailed standards for the source contract.

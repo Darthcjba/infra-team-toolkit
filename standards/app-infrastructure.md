@@ -2,6 +2,8 @@
 
 Status: Step 2 convention, informed by inspection of `agencieshq-e2e-infra`. The [reference mapping](reference-applications/agencieshq-e2e-infra.md) records implemented behavior and known limitations. The [shared image worked example](examples/shared-backend-image.md) exercises the change/relationship contract with executable checks and recorded results. One [scoped Cline CLI pilot](examples/cline-pilot.md) has passed. The [HQAdmin assessment](examples/hqadmin-validation.md) validates a second application's different layout offline, with dependency provenance and baseline relationship gaps recorded separately.
 
+The [ReadyGOP assessment](examples/readygop-validation.md) adds a third app with modular subsystem composition, a newer scheduling interface and environment-specific resource visibility. It records image propagation plus ignored/partial disable behavior without adopting those gaps as supported capabilities.
+
 ## Compatibility and adoption
 
 This standard defines responsibilities and rendered behavior. It does not require a directory layout, input schema, new Jsonnet API or library upgrade. Existing applications with different structures remain supported: map their actual files and commands to the responsibilities below. One file may serve several responsibilities, and a responsibility may span several files.
@@ -57,6 +59,8 @@ Inputs unsupported by the pinned library need native patches or explicit rejecti
 
 List emitted resources and their dependencies, including workers, preparation Jobs, storage, Services, credentials and accounts. State which components always exist and which can be disabled through a supported interface. Do not introduce toggles merely to satisfy the standard.
 
+When Jsonnet hidden fields (`::`) are used, distinguish internally addressable declarations from manifested resources. Inventory the actual output in each target. Test a component's disable path against retained gates and other dependents; an ignored global input or individually guarded resource does not establish a coordinated subsystem-disable capability.
+
 Preserve stable identities and selectors for unrelated changes. When identity changes are supported, propagate names and namespaces through workload references, Services, Ingresses, bindings, credentials, storage and completion gates. Classify dependencies as app-created, operator-generated or externally supplied; offline validation must account for that ownership instead of requiring every reference to appear as a rendered object.
 
 Check helper behavior tied to names, including scheduling substring matches and debug handling. A syntactically valid name can still change labels, replica counts or placement. Use the rendered result to establish that Services select the intended Pods.
@@ -102,4 +106,4 @@ The conceptual sequence is: merge inputs, resolve supported capabilities/identit
 
 If a future change introduces that layer, preserve existing entry points through a compatibility adapter and compare baseline output before migrating consumers. Acceptance cases include disabled workers removing dependent HPAs where present; reused accounts retaining Pod references without account creation; renamed app containers receiving policy without changing sidecars; and matching Service selectors. These cases require implementation evidence for each claimed capability.
 
-Skill alignment (Step 3), the worked change (Step 4), recorded CLI pilot (Step 5) and second-app HQAdmin offline assessment apply this contract. The separate pipeline procedure (Step 6) remains later work. These scoped results do not establish production readiness or universal compatibility.
+Skill alignment (Step 3), the worked change (Step 4), recorded CLI pilot (Step 5) and HQAdmin/ReadyGOP offline assessments apply this contract. The separate pipeline procedure (Step 6) remains later work. These scoped results do not establish production readiness or universal compatibility.

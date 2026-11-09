@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/OneHQ/tanka-lib-k8-onehq.git",
+          "subdir": ""
+        }
+      },
+      "version": "dbfcec9face86abac6b131c9cc0c7dd2c303d967",
+      "sum": "ayhmeTMXOZSflmjVl2c3DqTzdqL3Mii6fdhz/g44MwA="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/jsonnet-libs.git",
+          "subdir": "ksonnet-util"
+        }
+      },
+      "version": "74c55e5f503a1f84eb939f7c421e366d04f25961",
+      "sum": "0y3AFX9LQSpfWTxWKSwoLgbt0Wc9nnCwhMH2szKzHv0="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/jsonnet-libs/docsonnet.git",
+          "subdir": "doc-util"
+        }
+      },
+      "version": "bf6f08ae02a51c48bdcec4629b1c1a5a62c6f803",
+      "sum": "BrAL/k23jq+xy9oA7TWIhUx07dsA/QLm3g7ktCwe//U="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/jsonnet-libs/k8s-libsonnet.git",
+          "subdir": "1.35"
+        }
+      },
+      "version": "18e7a26f0699cb8b006494f40b93ddd06d33b299",
+      "sum": "B+1kudlxnkbH6warwOHHh+gmADl2w5VFJQ5D0SxcO6M="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/jsonnet-libs/kyverno-libsonnet.git",
+          "subdir": "1.9"
+        }
+      },
+      "version": "901e8ef1f22469dbe506f68c8a5a105766793dfb",
+      "sum": "cNG04XD7GuS0vUDKJnENjC7Z/LIIxURNoHGCUZKsekI="
+    }
+  ],
+  "legacyImports": false
+}

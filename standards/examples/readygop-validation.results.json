@@ -1,0 +1,369 @@
+{
+  "application_revision": "dac3d3a1aa316aa21ab9a0344aaaef5e28e55e35",
+  "dependency_origin": "existing local ignored lock and vendor; copied without network or upgrade",
+  "dependency_lock": {
+    "version": 1,
+    "dependencies": [
+      {
+        "source": {
+          "git": {
+            "remote": "https://github.com/OneHQ/tanka-lib-k8-onehq.git",
+            "subdir": ""
+          }
+        },
+        "version": "dbfcec9face86abac6b131c9cc0c7dd2c303d967",
+        "sum": "ayhmeTMXOZSflmjVl2c3DqTzdqL3Mii6fdhz/g44MwA="
+      },
+      {
+        "source": {
+          "git": {
+            "remote": "https://github.com/grafana/jsonnet-libs.git",
+            "subdir": "ksonnet-util"
+          }
+        },
+        "version": "74c55e5f503a1f84eb939f7c421e366d04f25961",
+        "sum": "0y3AFX9LQSpfWTxWKSwoLgbt0Wc9nnCwhMH2szKzHv0="
+      },
+      {
+        "source": {
+          "git": {
+            "remote": "https://github.com/jsonnet-libs/docsonnet.git",
+            "subdir": "doc-util"
+          }
+        },
+        "version": "bf6f08ae02a51c48bdcec4629b1c1a5a62c6f803",
+        "sum": "BrAL/k23jq+xy9oA7TWIhUx07dsA/QLm3g7ktCwe//U="
+      },
+      {
+        "source": {
+          "git": {
+            "remote": "https://github.com/jsonnet-libs/k8s-libsonnet.git",
+            "subdir": "1.35"
+          }
+        },
+        "version": "18e7a26f0699cb8b006494f40b93ddd06d33b299",
+        "sum": "B+1kudlxnkbH6warwOHHh+gmADl2w5VFJQ5D0SxcO6M="
+      },
+      {
+        "source": {
+          "git": {
+            "remote": "https://github.com/jsonnet-libs/kyverno-libsonnet.git",
+            "subdir": "1.9"
+          }
+        },
+        "version": "901e8ef1f22469dbe506f68c8a5a105766793dfb",
+        "sum": "cNG04XD7GuS0vUDKJnENjC7Z/LIIxURNoHGCUZKsekI="
+      }
+    ],
+    "legacyImports": false
+  },
+  "vendor_sha256": "b8a81b3937f33fa11d19f978ed5ab96448d928e22ec5b04e2ab6c1feeef7e446",
+  "toolkit_revision": "63fae878f790d8ce3e0bf9f04c4cc3600a3d63a2",
+  "assessment_script_sha256": "6ef7e9c7d800096b5bb0ba86b07d492e6fa1b53e207649908135c4cd50f2c195",
+  "targets": {
+    "staging": {
+      "graph": {
+        "resources": 82,
+        "nodes": 97,
+        "relationships": 222,
+        "unresolved": 13,
+        "templates": 2,
+        "kinds": {
+          "ConfigMap": 5,
+          "CronJob": 5,
+          "Deployment": 7,
+          "HorizontalPodAutoscaler": 2,
+          "Ingress": 4,
+          "Job": 8,
+          "Namespace": 1,
+          "PersistentVolumeClaim": 1,
+          "Policy": 3,
+          "PostgresCluster": 2,
+          "Role": 9,
+          "RoleBinding": 10,
+          "Secret": 11,
+          "Service": 7,
+          "ServiceAccount": 5,
+          "StatefulSet": 2
+        }
+      },
+      "service_selections": 7,
+      "duplicate_environment_entries": [
+        {
+          "resource": "goodjobMasterDeploy",
+          "container": "readygop-goodjob-master-staging",
+          "env_name": "IS_GOOD_JOB",
+          "count": 2
+        }
+      ],
+      "app_secret_key_references_checked": 156,
+      "unresolved": [
+        {
+          "kind": "IngressClass",
+          "namespace": "",
+          "name": "kubernetes-nginx-public"
+        },
+        {
+          "kind": "ClusterRole",
+          "namespace": "",
+          "name": "view"
+        },
+        {
+          "kind": "StorageClass",
+          "namespace": "",
+          "name": "basic"
+        },
+        {
+          "kind": "StorageClass",
+          "namespace": "",
+          "name": "mini"
+        },
+        {
+          "kind": "StorageClass",
+          "namespace": "",
+          "name": "regular"
+        },
+        {
+          "kind": "Namespace",
+          "namespace": "",
+          "name": "argocd-onehq"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "readygop-staging",
+          "name": "main-db-pguser-maindb-admin-staging"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "readygop-staging",
+          "name": "main-db-pguser-pgsync-replicator"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "readygop-staging",
+          "name": "main-db-pguser-postgres"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "readygop-staging",
+          "name": "worker-db-pguser-postgres"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "readygop-staging",
+          "name": "worker-db-pguser-workerdb-admin-staging"
+        },
+        {
+          "kind": "ServiceAccount",
+          "namespace": "readygop-main-pipeline",
+          "name": "build-bot"
+        },
+        {
+          "kind": "ServiceAccount",
+          "namespace": "readygop-staging",
+          "name": "default"
+        }
+      ]
+    },
+    "production": {
+      "graph": {
+        "resources": 81,
+        "nodes": 99,
+        "relationships": 230,
+        "unresolved": 16,
+        "templates": 2,
+        "kinds": {
+          "ConfigMap": 2,
+          "CronJob": 3,
+          "Deployment": 11,
+          "HorizontalPodAutoscaler": 3,
+          "Ingress": 6,
+          "Job": 6,
+          "Namespace": 1,
+          "PersistentVolumeClaim": 1,
+          "Policy": 3,
+          "PostgresCluster": 2,
+          "Role": 7,
+          "RoleBinding": 8,
+          "Secret": 14,
+          "Service": 9,
+          "ServiceAccount": 3,
+          "StatefulSet": 2
+        }
+      },
+      "service_selections": 9,
+      "duplicate_environment_entries": [
+        {
+          "resource": "goodjobMasterDeploy",
+          "container": "readygop-goodjob-master-production",
+          "env_name": "IS_GOOD_JOB",
+          "count": 3
+        }
+      ],
+      "app_secret_key_references_checked": 490,
+      "unresolved": [
+        {
+          "kind": "IngressClass",
+          "namespace": "",
+          "name": "kubernetes-nginx-private"
+        },
+        {
+          "kind": "IngressClass",
+          "namespace": "",
+          "name": "kubernetes-nginx-public"
+        },
+        {
+          "kind": "ClusterRole",
+          "namespace": "",
+          "name": "view"
+        },
+        {
+          "kind": "StorageClass",
+          "namespace": "",
+          "name": "basic"
+        },
+        {
+          "kind": "StorageClass",
+          "namespace": "",
+          "name": "mini"
+        },
+        {
+          "kind": "StorageClass",
+          "namespace": "",
+          "name": "regular"
+        },
+        {
+          "kind": "StorageClass",
+          "namespace": "",
+          "name": "rwm"
+        },
+        {
+          "kind": "Namespace",
+          "namespace": "",
+          "name": "argocd-onehq"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "readygop-production",
+          "name": "main-db-pguser-maindb-admin-production"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "readygop-production",
+          "name": "main-db-pguser-pgsync-replicator"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "readygop-production",
+          "name": "main-db-pguser-postgres"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "readygop-production",
+          "name": "pghero-goodjob-readygop-readygop-production-com-ingress-cert"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "readygop-production",
+          "name": "pghero-readygop-readygop-production-com-ingress-cert"
+        },
+        {
+          "kind": "Secret",
+          "namespace": "readygop-production",
+          "name": "worker-db-pguser-workerdb-admin-production"
+        },
+        {
+          "kind": "ServiceAccount",
+          "namespace": "readygop-main-pipeline",
+          "name": "build-bot"
+        },
+        {
+          "kind": "ServiceAccount",
+          "namespace": "readygop-production",
+          "name": "default"
+        }
+      ]
+    }
+  },
+  "installed_toolkit": {
+    "revision": "63fae878f790d8ce3e0bf9f04c4cc3600a3d63a2",
+    "verified_files": 21
+  },
+  "image_probes": {
+    "staging/rails": {
+      "status": "passed",
+      "changed_file": "environments/readygop-staging/staging-version.json",
+      "image_consumers": [
+        "railsDeploy",
+        "goodjobMasterDeploy",
+        "migrateDBJob"
+      ],
+      "unrelated_fields_and_other_targets_identical": true
+    },
+    "staging/pgsyncCore": {
+      "status": "passed",
+      "changed_file": "environments/readygop-staging/staging-version.json",
+      "image_consumers": [
+        "pgsyncProducerDeploy",
+        "pgsyncConsumerDeploy",
+        "pgsyncReindexJob",
+        "pgsyncSelectiveReindexCronJob/init/run-selective-reindex"
+      ],
+      "unrelated_fields_and_other_targets_identical": true
+    },
+    "production/rails": {
+      "status": "passed",
+      "changed_file": "environments/readygop-production/production-version.json",
+      "image_consumers": [
+        "railsDeploy",
+        "railsDebug",
+        "goodjobDeploy",
+        "goodjobMasterDeploy",
+        "migrateDBJob"
+      ],
+      "unrelated_fields_and_other_targets_identical": true
+    },
+    "production/pgsyncCore": {
+      "status": "passed",
+      "changed_file": "environments/readygop-production/production-version.json",
+      "image_consumers": [
+        "pgsyncProducerDeploy",
+        "pgsyncConsumerDeploy",
+        "pgsyncReindexJob",
+        "pgsyncSelectiveReindexCronJob/init/run-selective-reindex"
+      ],
+      "unrelated_fields_and_other_targets_identical": true
+    }
+  },
+  "capability_controls": {
+    "staging": {
+      "global_enabled_false_ignored": true,
+      "component_disable_removes_only_reindex_job": true,
+      "producer_and_consumer_keep_gate_to_absent_job": true
+    },
+    "production": {
+      "global_enabled_false_ignored": true,
+      "component_disable_removes_only_reindex_job": true,
+      "producer_and_consumer_keep_gate_to_absent_job": true
+    }
+  },
+  "baseline_format": {
+    "exit_code": 16,
+    "raw_output_withheld": true
+  },
+  "baseline_shell_syntax": {
+    "instances_checked": {
+      "staging": 59,
+      "production": 36
+    },
+    "failures": [],
+    "local_extract_script_exit_code": 0
+  },
+  "status": "scoped_compatibility_passed_with_baseline_gaps",
+  "limits": [
+    "Local lock/vendor provenance does not establish the deployed dependency baseline or upstream byte identity",
+    "Existing duplicate env, ignored/partial disable behavior and formatting are recorded separately",
+    "No deployment, workload execution, AVP resolution, external-resource/registry/schema checks or Cline run",
+    "Graph inference is partial; hidden fields and custom policy/operator behavior are not a runtime graph"
+  ]
+}

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Assess ReadyGOP as a third application using existing local OneHQ v1.0.20 dependencies, isolated installation and separate Rails/PGSync image probes across both environments; add source mapping, repeatable reviewer, lock/results and maps using the unchanged mapper.
+- Record hidden-resource visibility, environment-specific Job names, duplicate master env entries, ignored/partial disable controls and rebuild suspend precedence without modifying the app; extend team/standard guidance with those observed boundaries.
+
 - Validate HQAdmin as a second application layout using its declared OneHQ v1.0.14, isolated installation, full-resource image/gate comparisons and unchanged production output; add reproducible review tooling, recorded dependency lock/results and source mapping.
 - Document baseline Service-selector overlap, ignored-lock production provenance, external dependencies and existing formatting failures without modifying the application; extend team adoption guidance with those evidence boundaries.
 
