@@ -1,0 +1,130 @@
+{
+  "status": "passed",
+  "scope": "single Cline CLI pilot; shared backend image input only",
+  "date": "2026-11-09",
+  "toolkit_revision": "e7824eecc7fe615da1c5ea4e8625a8261a14c03f",
+  "application_revision": "4a494240abc9783c6faf47db6f0f8f05e441dd40",
+  "adoption_commit": "b855b60a088f3f9bd4f954109d0132bc70c955a7",
+  "installation": {
+    "managed_files": 15,
+    "installer_check": "passed against the clean pinned toolkit before the Cline run",
+    "snapshot": "preserved byte-for-byte"
+  },
+  "cline": {
+    "returncode": 0,
+    "elapsed_seconds": 275.7,
+    "provider": "openai-codex",
+    "requested_model": "gpt-6.1-sol",
+    "cli_version": "3.0.74",
+    "raw_logs": "kept private; not published",
+    "thinking": "medium",
+    "package": "@cline/cli-darwin-arm64",
+    "binary_sha256": "bd70efb9fb05365143fe0c2d4dd7e809c13631e168ac0abbc62b9f3e62e4ab91",
+    "package_integrity": "sha512-jwEoR9PgJj1RYd02ehJlQFFZ0hXcZYmtiS5Wi9dqid7osmqJRyeAmxYwBzW9vM9BJwiKT3HNjk7TIwyJULMkrw==",
+    "prompt_sha256": "2dc72f925327226adc73ae19546502a045d8051af064ae7b3edcf0b4cea31827",
+    "skill_invoked": "cjba-k8s-jsonnet",
+    "tool_invocations": {
+      "skills": 1,
+      "run_commands": 14,
+      "read_files": 1
+    },
+    "delegation_tools_invoked": false
+  },
+  "source_evidence": [
+    "AGENTS.md",
+    ".clinerules/infra-team-toolkit-10-source-authority.md",
+    ".clinerules/infra-team-toolkit-20-change-scope.md",
+    ".clinerules/infra-team-toolkit-30-validation.md",
+    "docs/infra-team-toolkit/standards/app-infrastructure.md",
+    "jsonnetfile.lock.json",
+    "lib/e2e/values.libsonnet",
+    "vendor/github.com/OneHQ/tanka-lib-k8-onehq"
+  ],
+  "change": {
+    "file": "environments/e2e-check/images.json",
+    "field": "backend.tag",
+    "before": "5.11.1",
+    "after": "toolkit-pilot",
+    "committed": false
+  },
+  "validation": {
+    "application_suite": {
+      "tests": 107,
+      "status": "passed",
+      "evidence": "Cline tool result contained the test count and OK marker with a successful command result"
+    },
+    "independent_review": {
+      "status": "passed",
+      "toolkit_revision": "e7824eecc7fe615da1c5ea4e8625a8261a14c03f",
+      "adoption_commit": "b855b60a088f3f9bd4f954109d0132bc70c955a7",
+      "changed_files": [
+        "environments/e2e-check/images.json"
+      ],
+      "selected_backend": "docker.io/onehq/agencieshq:toolkit-pilot",
+      "service_resources": 36,
+      "pr_resources": 36,
+      "consumers_verified": [
+        "backend",
+        "goodjob",
+        "sidekiq",
+        "dbprepare",
+        "dbseed",
+        "dbseed/init:backend-ready"
+      ],
+      "renamed_jobs": {
+        "dbprepare": {
+          "before": "e2e-check-prepare-d6a5bc4ca268",
+          "after": "e2e-check-prepare-59cb6b893f84"
+        },
+        "dbseed": {
+          "before": "e2e-check-seed-d6a5bc4ca268",
+          "after": "e2e-check-seed-59cb6b893f84"
+        },
+        "e2eRunner": {
+          "before": "e2e-check-runner-09e1c7e18b2d",
+          "after": "e2e-check-runner-a526cb14ba7f"
+        }
+      },
+      "all_other_rendered_fields_unchanged": true,
+      "independent_pr_output_unchanged": true,
+      "installed_toolkit_check": "passed",
+      "task_diff_whitespace": "passed",
+      "adoption_whitespace": {
+        "status": "inherited upstream-snapshot whitespace preserved",
+        "files": [
+          ".cline/skills/cjba-k8s-jsonnet/references/library-source.md"
+        ]
+      },
+      "original_reference_app": "clean and unchanged",
+      "raw_manifests": "compared in memory; not saved"
+    }
+  },
+  "exceptions": {
+    "adoption_whitespace": {
+      "status": "inherited upstream-snapshot whitespace preserved",
+      "files": [
+        ".cline/skills/cjba-k8s-jsonnet/references/library-source.md"
+      ]
+    },
+    "cline_command_layer": [
+      {
+        "category": "command timeout"
+      }
+    ],
+    "cli_setup": [
+      "Passing a model flag to auth selected API-key quick setup; OAuth succeeded with auth openai-codex alone.",
+      "This CLI run rejected piped stdin in JSON mode; the task succeeded with an explicit positional prompt argument."
+    ]
+  },
+  "privacy": {
+    "raw_agent_logs": "private and excluded",
+    "raw_manifests": "compared in memory; not published",
+    "authentication": "official ChatGPT OAuth; account details/tokens excluded"
+  },
+  "limits": [
+    "One application and one scoped tag change; not broad adoption evidence.",
+    "CLI pilot only; VS Code extension interaction not tested.",
+    "Synthetic image reference; registry contents, cluster dependencies and runtime readiness not tested.",
+    "No deployment, push or library migration performed."
+  ]
+}

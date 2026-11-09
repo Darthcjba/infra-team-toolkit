@@ -1,6 +1,6 @@
 # Application infrastructure contract
 
-Status: Step 2 convention, informed by inspection of `agencieshq-e2e-infra`. The [reference mapping](reference-applications/agencieshq-e2e-infra.md) records implemented behavior and known limitations. The [shared image worked example](examples/shared-backend-image.md) exercises the change/relationship contract with executable checks and recorded results. A Cline pilot and a second application assessment remain pending.
+Status: Step 2 convention, informed by inspection of `agencieshq-e2e-infra`. The [reference mapping](reference-applications/agencieshq-e2e-infra.md) records implemented behavior and known limitations. The [shared image worked example](examples/shared-backend-image.md) exercises the change/relationship contract with executable checks and recorded results. One [scoped Cline CLI pilot](examples/cline-pilot.md) has passed; a second application assessment remains pending.
 
 ## Compatibility and adoption
 
@@ -102,4 +102,4 @@ The conceptual sequence is: merge inputs, resolve supported capabilities/identit
 
 If a future change introduces that layer, preserve existing entry points through a compatibility adapter and compare baseline output before migrating consumers. Acceptance cases include disabled workers removing dependent HPAs where present; reused accounts retaining Pod references without account creation; renamed app containers receiving policy without changing sidecars; and matching Service selectors. These cases require implementation evidence for each claimed capability.
 
-Skill alignment (Step 3) and the worked change (Step 4) apply this contract. A Cline pilot (Step 5) and a separate pipeline procedure (Step 6) remain later steps. Documentation alone does not establish a successful consumer pilot or production rollout.
+Skill alignment (Step 3), the worked change (Step 4) and the recorded CLI pilot (Step 5) apply this contract. A second application assessment and a separate pipeline procedure (Step 6) remain later work. The scoped pilot does not establish production readiness or broad compatibility.

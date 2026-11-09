@@ -1,6 +1,6 @@
 # infra-team-toolkit
 
-Shared working conventions for infrastructure projects using Cline, Tanka and Jsonnet. Owner and sole maintainer: **@Darthcjba**. Development toolkit; a release and Cline pilot remain pending.
+Shared working conventions for infrastructure projects using Cline, Tanka and Jsonnet. Owner and sole maintainer: **@Darthcjba**. Development toolkit; one scoped Cline CLI pilot has passed. A release and a second application assessment remain pending.
 
 ## Responsibilities
 
@@ -19,7 +19,7 @@ See [governance](GOVERNANCE.md), [contributing](CONTRIBUTING.md), and [CODEOWNER
 
 The [application contract](standards/app-infrastructure.md) defines responsibilities and validation expectations while preserving existing consumer layouts and pinned APIs. Map the application's actual files to those responsibilities; working production resources do not need a directory migration to adopt the toolkit.
 
-The [reference mapping](standards/reference-applications/agencieshq-e2e-infra.md) distinguishes observed behavior from gaps. Step 1 inspection and Step 2 standard definition are documented. The [Jsonnet skill](skills/cjba-k8s-jsonnet/SKILL.md) follows the standard with explicit pinned-source precedence and revision-specific constructor guidance (Step 3). Its bundled library-source snapshot and supplied constructor guide remain unchanged. The [shared image worked example](standards/examples/shared-backend-image.md) provides executable checks, expected differences and recorded results (Step 4). A Cline pilot and assessment of another application remain pending.
+The [reference mapping](standards/reference-applications/agencieshq-e2e-infra.md) distinguishes observed behavior from gaps. Step 1 inspection and Step 2 standard definition are documented. The [Jsonnet skill](skills/cjba-k8s-jsonnet/SKILL.md) follows the standard with explicit pinned-source precedence and revision-specific constructor guidance (Step 3). Its bundled library-source snapshot and supplied constructor guide remain unchanged. The [shared image worked example](standards/examples/shared-backend-image.md) provides executable checks, expected differences and recorded results (Step 4). The [Cline CLI pilot](standards/examples/cline-pilot.md) records the installed toolkit pin, one-file change and independent acceptance review (Step 5). Assessment of another application and a separate pipeline procedure remain pending.
 
 Run the example from this checkout against the documented clean reference revision with its locked dependencies available:
 
@@ -57,6 +57,8 @@ Manually merge [templates/AGENTS.md](templates/AGENTS.md) into the application's
 ## Use with Cline
 
 Open the app as a single-folder workspace. Configure your approved model provider with your own credentials. Enable the installed rules and Jsonnet skill in Cline. Start by asking it to identify the pinned library revision, explain the render flow and list the exact validation command without editing. Then try one scoped change and inspect the rendered differences.
+
+For a CLI pilot, use a separate checkout and pinned runtime, keep authentication/logs outside the repository, and use [the recorded protocol](standards/examples/cline-pilot.md) with [the task template](templates/cline-shared-image-pilot.md). CLI validation does not establish that the VS Code extension has been piloted.
 
 [Cline rules](https://docs.cline.bot/customization/cline-rules) and [skills](https://docs.cline.bot/customization/skills) describe discovery. Toolkit guidance supplements the actual app source; it does not implement the proposed architecture automatically.
 

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Record a successful isolated Cline CLI pilot, its pinned toolkit/runtime/model invocation, canonical image edit, 107 application tests and independent full-resource acceptance review.
+- Add the reusable pilot task and document inherited snapshot whitespace plus recovered CLI/command-layer limitations; exclude authentication and raw agent/manifests from evidence.
 - Add an offline Kubernetes resource mapper with interactive HTML inspection, JSON/Mermaid exports, typed references/selectors and optional explicitly inferred environment links.
 - Summarize allowlisted resource attributes while omitting Secret/ConfigMap payloads, literal env values and commands; document unresolved references and custom-resource coverage limits.
 - Add a runnable shared-backend-image worked example with full-resource difference checks, a backend-only negative control, fixed-execution checks and optional isolated application validation.

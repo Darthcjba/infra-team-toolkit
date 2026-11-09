@@ -1,6 +1,6 @@
 # Worked example: shared backend image
 
-Status: Step 4 runnable example based on the [inspected reference application](../reference-applications/agencieshq-e2e-infra.md). `scripts/worked-shared-image.py` exercises the acceptance criteria below and produces a report containing only selected public image inputs, resource names and check results. The [recorded results](shared-backend-image.results.json) distinguish example checks from the full application suite. Step 5, a Cline pilot, remains pending.
+Status: Step 4 runnable example based on the [inspected reference application](../reference-applications/agencieshq-e2e-infra.md). `scripts/worked-shared-image.py` exercises the acceptance criteria below and produces a report containing only selected public image inputs, resource names and check results. The [recorded results](shared-backend-image.results.json) distinguish example checks from the full application suite. A separate [Cline CLI pilot](cline-pilot.md) records Step 5's actual input edit and independent review.
 
 Other applications should use their actual canonical image input, consumers and commands. API/worker/Job names and the file layout below are specific to `agencieshq-e2e-infra`.
 
@@ -117,4 +117,4 @@ sh scripts/validate.sh
 
 Full-suite results are separate from direct image/relationship probes. Toolkit installer tests do not substitute for application checks. Image availability/content, external credentials, cluster APIs and runtime readiness remain separate checks; offline examples do not prove deployment success.
 
-Step 4 supplies the executable procedure, expected differences and recorded results. Step 5 must still install a reviewed toolkit revision in an isolated consumer checkout, ask Cline to perform the real scoped input edit and compare its reviewed diff/results with this acceptance test. No deployment is part of this example.
+Step 4 supplies the executable procedure, expected differences and recorded results. The separate Step 5 record pins the toolkit installed in an isolated consumer checkout and compares Cline's actual scoped input edit against this acceptance contract. No deployment is part of either example.
