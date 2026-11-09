@@ -13,7 +13,7 @@ it is not another Cline pilot, deployment test or Tekton procedure.
 | App revision | `dac3d3a1aa316aa21ab9a0344aaaef5e28e55e35` |
 | Installed toolkit payload | `63fae878f790d8ce3e0bf9f04c4cc3600a3d63a2`; 21 managed files installed and checked from a clean toolkit checkout |
 | Dependencies | Existing ignored local lock/vendor copied unchanged; no network or upgrade. Declared OneHQ v1.0.20 resolves locally to `dbfcec9face86abac6b131c9cc0c7dd2c303d967` |
-| Reviewer | [Executable assessment](../../scripts/validate-readygop.py), added during this task; SHA256 and vendor fingerprint in [results](readygop-validation.results.json) |
+| Reviewer | [Executable assessment](https://github.com/Darthcjba/infra-team-toolkit/blob/733d9a2f5c7a9a1647c43926f2e760f2e5bdf095/scripts/validate-readygop.py), added during this task; SHA256 and vendor fingerprint in [results](readygop-validation.results.json) |
 | Tools | Tanka 0.36.3, jsonnet-bundler 0.6.0 available; Python 3 tooling. The run did not invoke jb or fetch dependencies |
 | Baseline | Staging 82 resources; production 81; default 0; installed-context output equals a clean clone with the same copied dependencies |
 | Rails probes | Staging API/master/migration; production API/debug/worker/master/migration. Image, migration identity/Pod job label/container name and two/four gates follow |
@@ -71,7 +71,7 @@ python3 -B scripts/install.py "$READYGOP_ASSESSMENT_DIR/app" --check
 ```
 
 Record the actual revision/count for a newer toolkit. Fill application `AGENTS.md`
-manually from [the template](../../templates/AGENTS.md), preserving existing
+manually from [the template](https://github.com/Darthcjba/infra-team-toolkit/blob/733d9a2f5c7a9a1647c43926f2e760f2e5bdf095/templates/AGENTS.md), preserving existing
 instructions and linking the app's PGSync architecture. The recorded isolated
 checkout has completed context. Neither the installer nor the reviewer edits the
 original app's guidance.

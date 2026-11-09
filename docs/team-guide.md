@@ -4,11 +4,16 @@ Use this guide to adopt the toolkit in an infrastructure repository, make scoped
 
 Owner and sole toolkit maintainer: **Darthcjba**. This guide does not change repository access, review ownership or application delivery permissions. See [governance](../GOVERNANCE.md) and [contributing](../CONTRIBUTING.md) for maintenance decisions.
 
-**Current evidence:** the E2E reference has a worked image example and one passing Cline CLI pilot; HQAdmin and ReadyGOP have passing scoped offline assessments with baseline gaps recorded. Existing application layouts remain supported through a file-responsibility mapping. A release, a VS Code extension pilot and a separate Tekton procedure remain pending. Application sizes, names, capabilities and directory structures are examples, not universal defaults.
+**Current evidence:** the E2E reference has a worked image example and one passing Cline CLI pilot; HQAdmin and ReadyGOP have passing scoped offline assessments with baseline gaps recorded. Existing application layouts remain supported through a file-responsibility mapping. Release review and a VS Code extension pilot remain pending. The owner has deferred Tekton and library-update work until a later session. Application sizes, names, capabilities and directory structures are examples, not universal defaults.
+
+The [README quick start](../README.md#start-using-it) is the short path through
+onboarding. This guide supplies the operating detail. The [toolkit review](toolkit-review.md)
+records implemented improvements and deliberately deferred optimizations.
 
 ## Contents
 
 - [What the toolkit provides](#what-the-toolkit-provides)
+- [What a successful use accomplishes](#what-a-successful-use-accomplishes)
 - [Prerequisites](#prerequisites)
 - [One-time application onboarding](#one-time-application-onboarding)
 - [Set up Cline](#set-up-cline)
@@ -18,6 +23,7 @@ Owner and sole toolkit maintainer: **Darthcjba**. This guide does not change rep
 - [Generate a Kubernetes resource map](#generate-a-kubernetes-resource-map)
 - [Review and share evidence](#review-and-share-evidence)
 - [Upgrade and rollback](#upgrade-and-rollback)
+- [After the constructor library changes](#after-the-constructor-library-changes)
 - [Troubleshooting](#troubleshooting)
 - [Maintaining this guide](#maintaining-this-guide)
 
@@ -37,6 +43,23 @@ Owner and sole toolkit maintainer: **Darthcjba**. This guide does not change rep
 
 The OneHQ constructor library is a separate, application-pinned dependency. Toolkit installation does not install binaries or dependencies, authenticate Cline, edit `AGENTS.md`, deploy infrastructure or configure GitHub permissions. Scripts/templates stay in the toolkit checkout; the installer copies only rules, the Jsonnet skill and standards into the app.
 
+## What a successful use accomplishes
+
+| Stage | Concrete result |
+| --- | --- |
+| Baseline inspection | Actual entry points, file responsibilities, pinned implementation, inputs, known gaps and offline commands recorded for this app |
+| Adoption | Reviewed managed guidance plus an exact revision/checksum manifest; completed app-owned context |
+| Agent discovery | Evidence that Cline/another agent read the relevant instructions and resolved library source |
+| Scoped change | A canonical input or resource edit whose intended consumers and expected differences are explicit |
+| Verification | Actual render/check results, full difference review and relationship evidence, with runtime/external limits recorded |
+| Map | Optional local HTML/JSON/Mermaid inspection artifacts containing allowlisted attributes and relationship evidence |
+| Review and maintenance | A review record, app adoption/change commit to revert, and a repeatable managed-file drift/upgrade procedure |
+
+The toolkit supplies guidance and tools for these outcomes. The engineer still
+chooses the real target, verifies output and follows the application's delivery
+process. A successful installation or graph generation alone does not establish
+that a resource change is correct.
+
 ## Prerequisites
 
 Before onboarding, obtain the application repository, its owner-supported render/check commands and a reviewed toolkit commit available to your team. Ask Darthcjba for the revision to adopt. Local development commits must be published or otherwise made available by the owner before another teammate can fetch them; no release tag is currently implied.
@@ -52,6 +75,12 @@ The toolkit repository is `https://github.com/Darthcjba/infra-team-toolkit.git`.
 | Approved Cline runtime and your own approved provider/account | Agent-assisted tasks; not required for using the map or installer |
 
 Keep two checkouts: the toolkit and the application. This guide's command examples assume sibling folders named `infra-team-toolkit/` and `app-infra/`. Substitute your actual application path. Run commands from the stated working directory; do not copy a reference environment name into another app without checking it.
+
+Full application copies are not toolkit content. Temporary clones used by the
+reference reviewers are automatically removed. Longer-lived agent pilot folders
+can be retained outside both repositories until review is complete; keep their
+authentication/logs private and retain only sanitized evidence in the toolkit.
+There is no requirement to keep one permanent application folder per assessment.
 
 For the recorded reference app, a fresh checkout uses `jb install` from the app root. Keep the lockfile intact. The toolkit does not guess a new Kubernetes/OneHQ version or upgrade it during adoption.
 
@@ -73,11 +102,17 @@ From the **clean, reviewed toolkit checkout**:
 git status --short
 git rev-parse HEAD
 python3 -B scripts/check.py
+python3 -B scripts/install.py ../app-infra --dry-run
 python3 -B scripts/install.py ../app-infra
 python3 -B scripts/install.py ../app-infra --check
 ```
 
-The installer refuses a dirty toolkit checkout. The application argument must be the application's Git working-tree root. It checks all destinations before writing and refuses conflicting content and symlink destinations; it has no force-overwrite option.
+The installer refuses a dirty toolkit checkout for preview, install and `--check`.
+The application argument must be the application's Git working-tree root. Preview
+performs the same conflict/symlink preflight as installation, lists Create/Keep
+paths and writes no files. Installation checks all destinations before writing;
+there is no force-overwrite option. Resolve any reported conflict deliberately
+before proceeding, preserving consumer-owned changes.
 
 Review these installed paths in the application:
 
@@ -89,6 +124,19 @@ Review these installed paths in the application:
 | `.infra-team-toolkit.json` | Exact toolkit revision and managed-file hashes |
 
 The managed-file count depends on the selected revision. A successful `--check` verifies that revision's expected files; it does not validate the app's Kubernetes resources.
+
+| Mode | Source of expected content | Writes |
+| --- | --- | --- |
+| `--dry-run` | Current clean committed toolkit revision; lists planned files after preflight | None |
+| Default install | Same current revision; creates missing identical-or-new destinations | Managed files/manifest only |
+| `--check` | Same current revision, including expected manifest | None |
+| `--verify-installed` | The consumer's recorded manifest; independent of current toolkit HEAD/cleanliness | None |
+
+Select one mode per command. The checksum audit validates only listed managed
+files and the manifest's shape/path constraints. It does not authenticate a
+tampered manifest, inspect unlisted files or verify app/runtime/dependency behavior.
+Use `--check` against a trusted selected toolkit revision when establishing
+expected payload provenance.
 
 ### 3. Complete application context
 
@@ -305,22 +353,59 @@ Share the guide/templates and reviewed commits rather than the owner's local pil
 
 ## Upgrade and rollback
 
-For an upgrade, work on a separate consumer branch. Record the current manifest revision and use that **old pinned toolkit checkout** to establish existing managed-file drift. Checking with a newer toolkit HEAD tests the newer expected payload, not the old installation.
+For an upgrade, work on a separate consumer branch. First audit the installed
+manifest using a toolkit checkout that includes the new verifier:
+
+```sh
+# Working directory: toolkit root. Current toolkit may differ from the installed pin.
+python3 -B scripts/install.py ../app-infra --verify-installed
+```
+
+This works with older manifests and does not require the old toolkit checkout.
+Record the reported revision and inspect any drift. For comparison against trusted
+historical payload content, use that old pinned checkout with `--check` as well.
+Running `--check` from a newer HEAD tests the newer expected payload, not the old
+installation; a mismatch alone does not establish corruption.
 
 1. Select the new owner-reviewed toolkit revision and read its changelog/compatibility notes.
 2. Review files listed in the old `.infra-team-toolkit.json`, including any local edits. Preserve/reconcile those edits deliberately.
 3. After review, remove only the old managed files listed in that manifest and the old manifest itself so the conservative installer can create replacements. Preserve application-owned `AGENTS.md`, inputs, entry points and other files.
-4. Install/check from the clean new toolkit checkout, review the complete diff, update application context if needed, and run the app's checks before committing.
+4. Preview with `--dry-run`, then install/check from the clean new toolkit checkout. Review the complete diff, update application context if needed, and run the app's checks before committing.
 
 There is no force-overwrite switch. Do not delete entire `.clinerules`, `.cline` or `docs` trees; they may contain unrelated application content. For rollback, revert the consumer adoption/upgrade commit, including its manifest and relevant manual context edits. Selecting an older toolkit checkout alone does not restore installed consumer files. Runtime changes use the application's separate rollback process.
+
+## After the constructor library changes
+
+This is the resumption procedure for the owner's later library work; no library
+upgrade or Tekton implementation is included in the toolkit review.
+
+1. Record the new library revision and inspect helper signatures, return shapes,
+   forwarded/native fields, scheduling and image/env behavior against each target
+   consumer's existing pin. Do not upgrade apps incidentally to toolkit adoption.
+2. Scope the compatibility change explicitly. Update maintained guidance for the
+   relevant revision while preserving the original supplied snapshot unless a
+   snapshot replacement is separately intended and reviewed.
+3. Establish the target app's baseline and expected differences. Preserve its
+   layout, identities and existing delivery responsibilities. Decide which native
+   patches remain necessary and whether any changed behavior needs migration.
+4. Run representative app renders, relationship checks and a scoped agent task.
+   The historical case scripts deliberately reject new app pins; extending a case
+   requires a reviewed baseline/acceptance update rather than bypassing its guards.
+5. Record new evidence with exact pins, update the team guide/changelog and select
+   a reviewed toolkit revision for consumer upgrades. Historical results retain
+   their original app/library/toolkit scope.
+
+Tekton remains a separate future procedure when the owner chooses to resume it.
 
 ## Troubleshooting
 
 | Symptom | Check/action |
 | --- | --- |
-| Installer/check refuses a dirty toolkit | Review/commit toolkit changes or use a clean checkout at the desired pin; do not discard work just to make status clean |
+| Preview/install/current-revision check refuses a dirty toolkit | Review/commit toolkit changes or use a clean checkout at the desired pin; do not discard work just to make status clean |
 | Conflicting destination or symlink refusal | Inspect the reported paths and ownership; preserve/reconcile content using the documented upgrade process, without a force overwrite |
-| Installed check fails after changing toolkit branches | Compare with the manifest's installed revision before interpreting this as corruption |
+| Current-revision check fails after changing toolkit branches | Use `--verify-installed` for recorded-file drift; use the old trusted pin's `--check` when verifying historical payload provenance |
+| Installed-manifest audit reports changed/missing files | Inspect the reported managed paths and reconcile edits deliberately; the audit never repairs/overwrites files |
+| A copied standard links to a script/template | These tools stay in the toolkit checkout. Maintained reference docs use pinned repository links for non-installed targets; the owner must make those commits available |
 | Agent uses the snapshot's wrong helper shape | Inspect lock/imports/resolved code; read the skill's compatibility reference and preserve the app's implemented API |
 | A shared image misses a worker/Job | Trace the canonical role and derivation order; distinguish it from a component-only override |
 | `enabled: false` or a Secret/account rename does not propagate | Confirm actual app support; new fields do not implement capabilities, and earlier derivations may keep old references |
@@ -337,4 +422,4 @@ There is no force-overwrite switch. Do not delete entire `.clinerules`, `.cline`
 
 Darthcjba maintains the toolkit and guide. When changing installer paths, commands, runtime guidance or accepted behavior, update this guide and the linked detailed procedure/evidence in the same review. Run toolkit checks per [CONTRIBUTING.md](../CONTRIBUTING.md); application behavior still needs representative app validation.
 
-The E2E CLI pilot and HQAdmin/ReadyGOP offline assessments now cover three applications. Before broader adoption, review their limits, establish each consumer's dependency/external-resource baseline and select a reviewed toolkit revision. Keep future architecture and the pending separate Tekton procedure clearly separate from implemented features. See [README.md](../README.md) for current status and the detailed standards for the source contract.
+The E2E CLI pilot and HQAdmin/ReadyGOP offline assessments now cover three applications. Before broader adoption, review their limits, establish each consumer's dependency/external-resource baseline and select a reviewed toolkit revision. Use the source/installed link checker for new documentation; it checks local file targets, not remote URL availability or heading anchors. Keep future architecture and deferred Tekton/library work clearly separate from implemented features. See [README.md](../README.md) for current status and the detailed standards for the source contract.

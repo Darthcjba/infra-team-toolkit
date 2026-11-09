@@ -12,7 +12,7 @@ This is a second application assessment, not a second Cline pilot or production 
 | --- | --- |
 | Application | OneHQ/hqadmin-infra `79c5225d25ebd8b93b9bc10a92ba4dfd46ed55e0` |
 | Installed toolkit payload | `e93dffdbb7e8c1687c11a45c53a929db01f0a8d9`; 17 managed files installed and `--check` verified while that toolkit checkout was clean |
-| Assessment tooling | [Reviewer](../../scripts/validate-hqadmin.py), added during this assessment; its SHA256 is in the [result](hqadmin-validation.results.json) |
+| Assessment tooling | [Reviewer](https://github.com/Darthcjba/infra-team-toolkit/blob/63fae878f790d8ce3e0bf9f04c4cc3600a3d63a2/scripts/validate-hqadmin.py), added during this assessment; its SHA256 is in the [result](hqadmin-validation.results.json) |
 | Resolved dependencies | Fresh [recorded lock](hqadmin-dependencies.lock.json), including declared OneHQ v1.0.14 resolving to `c34a0d696426e3a178fdb8587625f3100f8d46c2`; no production lock was available |
 | Runtime | Tanka 0.36.3, jsonnet-bundler 0.6.0; Python 3 used for tooling |
 | Baseline renders | Staging 37 resources; production 37; default scaffold 0 |
@@ -68,7 +68,7 @@ python3 -B scripts/install.py "$HQADMIN_ASSESSMENT_DIR/app" --check
 
 Record the revision actually installed; a newer toolkit revision can have more
 managed files than the historical 17 above. Complete application context manually
-using [the template](../../templates/AGENTS.md) and the source mapping. Do not
+using [the template](https://github.com/Darthcjba/infra-team-toolkit/blob/63fae878f790d8ce3e0bf9f04c4cc3600a3d63a2/templates/AGENTS.md) and the source mapping. Do not
 replace source application instructions. The recorded isolated checkout has a
 filled `AGENTS.md`; the installer itself does not create it.
 

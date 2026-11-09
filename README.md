@@ -1,86 +1,164 @@
 # infra-team-toolkit
 
-Shared working conventions for infrastructure projects using Cline, Tanka and Jsonnet. Owner and sole maintainer: **@Darthcjba**. Development toolkit with scoped evidence from three applications, including one Cline CLI pilot. Release review remains pending.
+Shared instructions and offline tools for infrastructure engineering with Cline,
+Tanka and Jsonnet. Owner and sole maintainer: **@Darthcjba**.
 
-**Start here:** the [team guide](docs/team-guide.md) covers prerequisites, application onboarding, Cline setup, daily changes, worked examples, resource maps, review evidence, upgrades and troubleshooting. Share it from a reviewed toolkit checkout; teammates do not need the project conversation.
+The toolkit helps an engineer or agent understand an existing app, use its pinned
+OneHQ constructors, make one scoped change and produce reviewable resource evidence.
+Applications keep their existing layout and delivery process. OneHQ/tanka-lib-k8-onehq
+remains a separate application dependency.
 
-## Responsibilities
+**Status:** development toolkit with evidence from three applications and one Cline
+CLI pilot. A release remains pending. Tekton and library-update work are deferred
+until the owner resumes them. Read the [team guide](docs/team-guide.md) for the full
+workflow and the [review findings](docs/toolkit-review.md) for improvements and limits.
 
-| Location | Owns | Current owner |
-| --- | --- | --- |
-| `rules/` | Short cross-project instructions | @Darthcjba |
-| `skills/` | Jsonnet guidance and future domain procedures | @Darthcjba |
-| `standards/` | Application boundaries, examples and migration targets | @Darthcjba |
-| `templates/` | Consumer documentation starting points | @Darthcjba |
-| `scripts/` | Installation and setup checks | @Darthcjba |
-| `docs/` | Team onboarding and usage guide | @Darthcjba |
-| `README.md` | Setup, usage, ownership and upgrades | @Darthcjba |
+## What it provides
 
-See [governance](GOVERNANCE.md), [contributing](CONTRIBUTING.md), and [CODEOWNERS](.github/CODEOWNERS). GitHub permissions are configured separately; these files do not change access or visibility.
+| Feature | What you get |
+| --- | --- |
+| [Rules](rules/10-source-authority.md) and [Jsonnet skill](skills/cjba-k8s-jsonnet/SKILL.md) | Consistent source precedence, constructor use, change scope and validation instructions |
+| [Application standard](standards/app-infrastructure.md) and [context template](templates/AGENTS.md) | A map of actual files, canonical inputs, dependencies and checks without reorganizing the app |
+| [Installer](scripts/install.py) and manifest | A pinned guidance installation, preview, conflict protection and managed-file drift checks |
+| [Kubernetes mapper](standards/kubernetes-map.md) | Interactive HTML resource inspection, typed relationships, JSON and Mermaid exports |
+| [Reference cases](#reference-evidence) | Reproducible, app-specific image/relationship acceptance checks and documented gaps |
+| [Team guide](docs/team-guide.md) and [review template](templates/change-review.md) | A repeatable onboarding, change, verification and upgrade process |
 
-## Application standard and compatibility
+Rendering and review stay offline. Image contents, external resources, schema/API
+support and runtime readiness need the application's own checks. Deployment remains
+its existing delivery procedure. Toolkit tests alone establish neither app correctness
+nor production readiness.
 
-The [application contract](standards/app-infrastructure.md) defines responsibilities and validation expectations while preserving existing consumer layouts and pinned APIs. Map the application's actual files to those responsibilities; working production resources do not need a directory migration to adopt the toolkit.
+## Start using it
 
-The [reference mapping](standards/reference-applications/agencieshq-e2e-infra.md) distinguishes observed behavior from gaps. Step 1 inspection and Step 2 standard definition are documented. The [Jsonnet skill](skills/cjba-k8s-jsonnet/SKILL.md) follows the standard with explicit pinned-source precedence and revision-specific constructor guidance (Step 3). Its bundled library-source snapshot and supplied constructor guide remain unchanged. The [shared image worked example](standards/examples/shared-backend-image.md) provides executable checks, expected differences and recorded results (Step 4). The [Cline CLI pilot](standards/examples/cline-pilot.md) records the installed toolkit pin, one-file change and independent acceptance review (Step 5). The [HQAdmin assessment](standards/examples/hqadmin-validation.md) validates a second layout with a different OneHQ revision, unchanged production output and explicit dependency/selector/external-resource gaps. It is offline evidence; Cline was not run on that app. The separate pipeline procedure (Step 6) remains pending.
+### 1. Prepare the two checkouts
 
-The [ReadyGOP assessment](standards/examples/readygop-validation.md) adds a third application: OneHQ v1.0.20, a modular PGSync subsystem and different staging/production visibility. Separate Rails/PGSync image probes preserve unrelated output; negative controls record ignored global and incomplete component-disable behavior. Its source checkout and existing local dependencies remain unchanged. This is also offline evidence, without another Cline run.
+Obtain a reviewed toolkit commit and the application Git checkout. The owner must
+publish or otherwise share that commit before teammates can fetch it; local commits
+are not a release. You need Git and Python 3.9+. Rendering also needs the app's Tanka
+and resolved Jsonnet dependencies; Cline work needs your approved runtime/account.
 
-Run the example from this checkout against the documented clean reference revision with its locked dependencies available:
+Keep the toolkit and application as separate checkouts. Application copies, vendor
+directories, pilot credentials and raw logs belong outside this toolkit repository.
+The reference case scripts create temporary clones for their edit probes.
 
-```bash
-python3 -B scripts/worked-shared-image.py /path/to/agencieshq-e2e-infra --validate-app
+### 2. Establish the application's baseline
+
+Read its `AGENTS.md`, architecture, entry points, dependency lock/imports and existing
+validation commands. Record which library implementation is actually resolved.
+Map responsibilities using [the standard](standards/app-infrastructure.md), then
+capture the existing offline output privately. Missing locks, hidden resources,
+external ownership and known check failures belong in that baseline record.
+
+### 3. Preview and install guidance
+
+From the **clean toolkit root**, replace the application path:
+
+```sh
+APP_ROOT=/absolute/path/to/app-infra
+python3 -B scripts/check.py
+python3 -B scripts/install.py "$APP_ROOT" --dry-run
+python3 -B scripts/install.py "$APP_ROOT"
+python3 -B scripts/install.py "$APP_ROOT" --check
 ```
 
-It compares synthetic image changes in memory and runs the optional application suite in a temporary copy. It does not edit or deploy the reference application. This is a reference-specific acceptance test; other applications retain their own paths, inputs and supported capabilities.
+Preview lists planned paths without writing. Installation preflights all targets
+and refuses conflicting content/symlinks. It creates:
 
-## Explore rendered resources
+| Installed path | Purpose |
+| --- | --- |
+| `.clinerules/infra-team-toolkit-*.md` | Shared rules |
+| `.cline/skills/cjba-k8s-jsonnet/` | Skill and constructor/workflow references |
+| `docs/infra-team-toolkit/standards/` | Contract, selected reference mappings and evidence |
+| `.infra-team-toolkit.json` | Exact toolkit revision and managed-file SHA256 hashes |
 
-The [Kubernetes map](standards/kubernetes-map.md) generates an interactive offline diagram with resource attributes and typed connections, plus JSON and Mermaid exports. It accepts existing rendered JSON or renders a selected Tanka entry point. Optional environment-derived links are marked as inferred, and Secret payloads/literal environment values are omitted.
+Scripts, templates, the team guide, application repositories and generated maps
+stay in the toolkit/work area. Installation does not fetch dependencies, configure
+Cline, edit application `AGENTS.md` or change GitHub access.
 
-```bash
-python3 -B scripts/map-kubernetes.py --app /path/to/app-infra \
+### 4. Complete app context and verify agent discovery
+
+Merge [templates/AGENTS.md](templates/AGENTS.md) into the app's instructions, preserving
+existing guidance and replacing every placeholder. Include actual paths, canonical
+image inputs, supported operations, external dependencies and exact offline commands.
+
+Open the app in Cline and enable the installed rules/skill using your approved
+configuration. Use the [read-only inspection prompt](docs/team-guide.md#start-with-a-read-only-inspection)
+first. Verify that it reads the guidance and pinned source. Other agents, including
+Codex, must read Cline-specific guidance explicitly. Review/commit adoption separately
+from a functional resource change.
+
+### 5. Make and review one change
+
+Use the [scoped-change prompt](docs/team-guide.md#request-one-concrete-change), naming
+the target and intended consumers. Follow the app's canonical input and render/check
+commands. Compare complete resource objects as well as images, identities, selectors,
+references, metadata and policy. Keep known baseline gaps distinct from new changes.
+
+Record commands, results, limits and rollback in [the review template](templates/change-review.md).
+The [Cline procedure](docs/team-guide.md#set-up-cline) documents the tested CLI setup;
+VS Code extension use still needs its own smoke test.
+
+### 6. Inspect a resource map
+
+From the **toolkit root**, replace the environment with the app's actual entry point:
+
+```sh
+python3 -B scripts/map-kubernetes.py --app "$APP_ROOT" \
   --environment environments/example --output generated/kubernetes/example
 ```
 
-Open `generated/kubernetes/example/index.html`. The output stays outside the application checkout; no cluster connection or deployment is performed.
+Open `generated/kubernetes/example/index.html`; keep `graph.json` and `graph.mmd`
+beside it. No server is needed. Add `--infer-env-links` for explicitly inferred
+endpoint/Job links. Existing rendered JSON works with `--input /path/to/rendered.json`.
+Output stays outside the application. See [coverage and controls](standards/kubernetes-map.md):
+unresolved objects are absent from the input, and the diagram describes supported
+declarations/heuristics rather than a complete runtime graph.
 
-## Install in one application
+### 7. Check drift and manage upgrades
 
-Prerequisites: Git, Python 3.9+, a clean committed toolkit checkout and an existing application Git working tree. Use a reviewed toolkit commit or release. Replace the example path below.
+From any toolkit checkout containing this verifier:
 
-```bash
-python3 scripts/check.py
-python3 scripts/install.py /absolute/path/to/app-infra
-python3 scripts/install.py /absolute/path/to/app-infra --check
+```sh
+python3 -B scripts/install.py "$APP_ROOT" --verify-installed
 ```
 
-The installer creates `.clinerules/infra-team-toolkit-*.md`, `.cline/skills/cjba-k8s-jsonnet/`, `docs/infra-team-toolkit/standards/`, and `.infra-team-toolkit.json`. Conflicting existing content is left untouched. Review and commit these files in the application repository.
+This checks the app's recorded managed-file hashes without requiring its old toolkit
+checkout or a clean current toolkit. It checks manifest consistency; it does not
+authenticate a modified manifest, discover unlisted files or validate Kubernetes output.
 
-Manually merge [templates/AGENTS.md](templates/AGENTS.md) into the application's existing guidance, filling every placeholder with actual paths and commands. Install the app's documented Tanka/Jsonnet dependencies separately. No versions are guessed here.
+`--check` instead compares against the **current clean toolkit revision**. Use that
+for adoption acceptance or comparison with a selected revision. For upgrades, first
+verify the existing installation, select the new reviewed toolkit revision and follow
+[the deliberate replacement/rollback procedure](docs/team-guide.md#upgrade-and-rollback).
+There is no force overwrite or automatic removal of application-owned files.
 
-## Use with Cline
+## Reference evidence
 
-Open the app as a single-folder workspace. Configure your approved model provider with your own credentials. Enable the installed rules and Jsonnet skill in Cline. Start by asking it to identify the pinned library revision, explain the render flow and list the exact validation command without editing. Then try one scoped change and inspect the rendered differences.
+These cases require their documented app revisions and dependencies. They are
+regression examples, not generic validators for arbitrary apps or edited revisions.
+Run commands from the **toolkit root**:
 
-For a CLI pilot, use a separate checkout and pinned runtime, keep authentication/logs outside the repository, and use [the recorded protocol](standards/examples/cline-pilot.md) with [the task template](templates/cline-shared-image-pilot.md). CLI validation does not establish that the VS Code extension has been piloted.
+| Case | Procedure and command | Evidence scope |
+| --- | --- | --- |
+| Agencies E2E | [Worked example](standards/examples/shared-backend-image.md); `python3 -B scripts/worked-shared-image.py /path/to/agencieshq-e2e-infra --validate-app` | Shared image/gates, optional 107-test app suite; [one Cline CLI pilot](standards/examples/cline-pilot.md) |
+| HQAdmin | [Assessment](standards/examples/hqadmin-validation.md); `python3 -B scripts/validate-hqadmin.py /path/to/isolated-hqadmin` | Different layout, shared image, unchanged production output; fresh dependency-resolution and selector gaps recorded |
+| ReadyGOP | [Assessment](standards/examples/readygop-validation.md); `python3 -B scripts/validate-readygop.py /path/to/isolated-readygop` | Newer pinned interface, Rails/PGSync roles, visibility and negative disable controls; existing env/policy gaps recorded |
 
-[Cline rules](https://docs.cline.bot/customization/cline-rules) and [skills](https://docs.cline.bot/customization/skills) describe discovery. Toolkit guidance supplements the actual app source; it does not implement the proposed architecture automatically.
+The supplied library snapshot remains byte-preserved. An application's resolved
+implementation takes precedence. Future library upgrades need a separate compatibility
+review and new evidence; historical passing results retain their original scope.
 
-## Validate and release
+## Maintain the toolkit
 
-```bash
-python3 scripts/check.py
-python3 -m unittest discover -s tests -v
+```sh
+python3 -B scripts/check.py
+python3 -B -m unittest discover -s tests -v
 git diff --check
 ```
 
-The owner reviews changes, updates CHANGELOG.md, merges, and tags a release when ready. Three applications have scoped evidence; review their recorded limits and establish each consumer's baseline before broader adoption. Toolkit tests do not validate Kubernetes manifests or production readiness.
-
-## Upgrade and rollback
-
-Pin a reviewed toolkit revision. Run check mode to find drift. Follow [scripts/README.md](scripts/README.md) for deliberate replacement of managed files; preserve application-owned files. Review and commit the resulting consumer diff. Roll back by reverting the consumer adoption commit, including its manifest. Runtime changes require the app's own rollback process.
-
-## Scope
-
-The OneHQ constructor library remains a separate dependency. This repository ships reusable guidance and tooling. Pipelines and other platform domains can grow as separate skills without forcing app schemas onto every task.
+Checks cover structure, skill references, authored local file links and installed
+documentation links; they do not query external URLs. See [scripts](scripts/README.md),
+[review findings](docs/toolkit-review.md), [contributing](CONTRIBUTING.md),
+[governance](GOVERNANCE.md) and [ownership](.github/CODEOWNERS). Darthcjba reviews,
+publishes and tags releases when ready. Repository access is configured separately.

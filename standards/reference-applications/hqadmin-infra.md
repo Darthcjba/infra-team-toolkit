@@ -4,7 +4,7 @@ Status: implemented source inspection and scoped offline compatibility validatio
 of application commit `79c5225d25ebd8b93b9bc10a92ba4dfd46ed55e0`. The installed
 toolkit payload was `e93dffdbb7e8c1687c11a45c53a929db01f0a8d9`; the
 [assessment procedure](../examples/hqadmin-validation.md),
-[executable reviewer](../../scripts/validate-hqadmin.py) and
+[executable reviewer](https://github.com/Darthcjba/infra-team-toolkit/blob/63fae878f790d8ce3e0bf9f04c4cc3600a3d63a2/scripts/validate-hqadmin.py) and
 [sanitized result](../examples/hqadmin-validation.results.json) accompany this record.
 The reviewer was added during this assessment; its SHA256 is in the result.
 

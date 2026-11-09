@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Review toolkit usability after three app assessments; rewrite the README as a feature/output overview and step-by-step adoption/change/map/upgrade guide, expand the team/review templates, and record measured optimization decisions plus deferred library/Tekton work.
+- Add installer preview and source-independent installed-manifest verification, with path/hash/schema checks and no automatic overwrites or removals; preserve current-revision check semantics and historical manifest compatibility.
+- Repair six installed documentation links to non-packaged tools/templates; check authored source/installed file links automatically and keep structural checks active under optimized Python.
+
 - Assess ReadyGOP as a third application using existing local OneHQ v1.0.20 dependencies, isolated installation and separate Rails/PGSync image probes across both environments; add source mapping, repeatable reviewer, lock/results and maps using the unchanged mapper.
 - Record hidden-resource visibility, environment-specific Job names, duplicate master env entries, ignored/partial disable controls and rebuild suspend precedence without modifying the app; extend team/standard guidance with those observed boundaries.
 

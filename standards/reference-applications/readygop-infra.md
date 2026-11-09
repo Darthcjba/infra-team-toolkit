@@ -4,7 +4,7 @@ Status: scoped offline compatibility assessment of `Darthcjba/readygop-infra`
 commit `dac3d3a1aa316aa21ab9a0344aaaef5e28e55e35`. The isolated checkout received
 toolkit `63fae878f790d8ce3e0bf9f04c4cc3600a3d63a2` (21 managed files, install/check
 passed). See the [repeatable procedure](../examples/readygop-validation.md),
-[reviewer](../../scripts/validate-readygop.py) and
+[reviewer](https://github.com/Darthcjba/infra-team-toolkit/blob/733d9a2f5c7a9a1647c43926f2e760f2e5bdf095/scripts/validate-readygop.py) and
 [sanitized results](../examples/readygop-validation.results.json).
 
 The original checkout was clean and stayed unchanged, including its existing

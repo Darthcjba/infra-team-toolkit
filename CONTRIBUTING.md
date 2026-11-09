@@ -6,7 +6,7 @@ For adopting and using the toolkit in an application, start with the [team guide
 
 1. Create a focused branch and identify the affected rules, skills, standards or scripts.
 2. Preserve consumer compatibility or document the migration and rollback.
-3. Run `python3 scripts/check.py` and `python3 -m unittest discover -s tests -v`.
+3. Run `python3 scripts/check.py` and `python3 -m unittest discover -s tests -v`. Authored file links must resolve both in the toolkit and in installed standards. For non-installed scripts/templates, link to the reviewed repository commit; preserve the supplied skill reference archive. External URL availability and heading fragments need separate review when relevant.
 4. For constructor guidance changes, inspect the consumer's pinned library source and validate a representative application when available. Toolkit checks do not render Kubernetes resources.
 5. Review `git diff --check` and the complete diff. Record validation limits in the PR.
 6. Update CHANGELOG.md. The owner decides when to merge and tag a release.
