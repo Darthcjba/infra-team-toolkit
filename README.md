@@ -1,6 +1,6 @@
 # infra-team-toolkit
 
-Shared working conventions for infrastructure projects using Cline, Tanka and Jsonnet. Owner and sole maintainer: **@Darthcjba**. Initial scaffold; not yet a released or application-validated toolkit.
+Shared working conventions for infrastructure projects using Cline, Tanka and Jsonnet. Owner and sole maintainer: **@Darthcjba**. Development toolkit; a release and Cline pilot remain pending.
 
 ## Responsibilities
 
@@ -14,6 +14,31 @@ Shared working conventions for infrastructure projects using Cline, Tanka and Js
 | `README.md` | Setup, usage, ownership and upgrades | @Darthcjba |
 
 See [governance](GOVERNANCE.md), [contributing](CONTRIBUTING.md), and [CODEOWNERS](.github/CODEOWNERS). GitHub permissions are configured separately; these files do not change access or visibility.
+
+## Application standard and compatibility
+
+The [application contract](standards/app-infrastructure.md) defines responsibilities and validation expectations while preserving existing consumer layouts and pinned APIs. Map the application's actual files to those responsibilities; working production resources do not need a directory migration to adopt the toolkit.
+
+The [reference mapping](standards/reference-applications/agencieshq-e2e-infra.md) distinguishes observed behavior from gaps. Step 1 inspection and Step 2 standard definition are documented. The [Jsonnet skill](skills/cjba-k8s-jsonnet/SKILL.md) follows the standard with explicit pinned-source precedence and revision-specific constructor guidance (Step 3). Its bundled library-source snapshot and supplied constructor guide remain unchanged. The [shared image worked example](standards/examples/shared-backend-image.md) provides executable checks, expected differences and recorded results (Step 4). A Cline pilot and assessment of another application remain pending.
+
+Run the example from this checkout against the documented clean reference revision with its locked dependencies available:
+
+```bash
+python3 -B scripts/worked-shared-image.py /path/to/agencieshq-e2e-infra --validate-app
+```
+
+It compares synthetic image changes in memory and runs the optional application suite in a temporary copy. It does not edit or deploy the reference application. This is a reference-specific acceptance test; other applications retain their own paths, inputs and supported capabilities.
+
+## Explore rendered resources
+
+The [Kubernetes map](standards/kubernetes-map.md) generates an interactive offline diagram with resource attributes and typed connections, plus JSON and Mermaid exports. It accepts existing rendered JSON or renders a selected Tanka entry point. Optional environment-derived links are marked as inferred, and Secret payloads/literal environment values are omitted.
+
+```bash
+python3 -B scripts/map-kubernetes.py --app /path/to/app-infra \
+  --environment environments/example --output generated/kubernetes/example
+```
+
+Open `generated/kubernetes/example/index.html`. The output stays outside the application checkout; no cluster connection or deployment is performed.
 
 ## Install in one application
 

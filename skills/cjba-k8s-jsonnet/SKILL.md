@@ -1,28 +1,29 @@
 ---
 name: cjba-k8s-jsonnet
-description: 'Create, review, refactor, and explain Kubernetes infrastructure written with Grafana Tanka/Jsonnet using OneHQ/tanka-lib-k8-onehq, FURTHER DEV: FOLLOW STANDARD FOR INFRA AS CODE REPO'
+description: 'Create, review, modify, and explain Kubernetes infrastructure written with Grafana Tanka/Jsonnet using OneHQ/tanka-lib-k8-onehq. Use for constructor composition and application changes that preserve existing layouts and pinned library interfaces.'
 ---
 
-
-
-
-
-# Lima Kubernetes Jsonnet
+# OneHQ Kubernetes Jsonnet
 
 Use the OneHQ `tanka-lib-k8-onehq` abstractions accurately and conservatively. Prefer the library's existing helpers when they model the requested behavior; use native `k.libsonnet` constructors and Jsonnet patches for fields the OneHQ helper does not support.
 
 ## Source authority
 
-Use sources in this order:
+For an application, inspect its dependency lock, import shims and resolved implementation first. That revision governs signatures, supported fields and return shapes. User-supplied source for that revision can establish the same authority. A different supplied revision or upstream main is not permission to upgrade the app.
 
-1. Current source supplied by the user in the conversation, or the live OneHQ GitHub repository when a GitHub connector is connected and a freshness check is useful.
-2. `references/library-source.md`, which is the bundled source snapshot used to build this skill.
-3. `references/api-reference.md` and `references/patterns.md`, which summarize the bundled snapshot.
-4. `references/constructor-guide-reference.txt` only as a secondary reference.
+If the resolved source is missing, use source from the exact locked revision when accessible. Otherwise identify the uncertainty and use bundled guidance provisionally; do not claim compatibility or successful rendering. Fetching or upgrading dependencies must stay within the task's scope. Consult upstream current behavior when the task requests it or when it helps investigate a discrepancy, keeping it distinct from the app's target revision.
 
-Never let the constructor guide override actual library source. The supplied guide was written against a different revision and contains some stale signatures, especially around service-level scheduling.
+For standalone examples without an application pin, use `references/library-source.md`, then its summaries in `references/api-reference.md` and `references/patterns.md`. These describe bundled snapshot `cb49c83a43cb04e05da5e820c6fe56faed32bf73`, not every OneHQ revision. `references/constructor-guide-reference.txt` is secondary and contains signatures from another revision. Never let it override resolved source.
 
-When live GitHub access is available, consult `https://github.com/OneHQ/tanka-lib-k8-onehq.git` when the user asks for the latest/current behavior, when an existing project pins a different revision, or when source behavior appears inconsistent with the bundled snapshot. Do not require GitHub for ordinary use. If live source is unavailable, work from the bundled snapshot and say so only when the version distinction matters.
+Read `references/library-compatibility.md` when the app pin differs from the snapshot, scheduling inputs differ, or an example conflicts with the app. Constructor examples below describe the bundled shape unless confirmed against the consumer's implementation.
+
+## Application tasks
+
+Read `references/application-workflow.md` for repository analysis, changes or refactoring. Explicitly read the app's `AGENTS.md` and linked architecture guidance; do not assume Cline-specific paths are automatically loaded by another agent.
+
+Locate the application standard at `docs/infra-team-toolkit/standards/app-infrastructure.md` from the consumer root, or `standards/app-infrastructure.md` from an available toolkit checkout. Map existing files to its responsibilities. If neither is available, use the responsibility summary in the workflow reference and the app's own guidance; do not install the toolkit merely to answer a constructor question.
+
+Preserve existing layouts and supported entry points. Identify the canonical input, actual merge/derivation stages and intended consumers before editing. Standard proposals such as `prepareComponents`, `validatePrepared` or generic capability toggles are not callable APIs until the app implements them. Analysis-only requests remain read-only; a render command does not authorize delivery.
 
 ## Decide the task mode
 
@@ -31,7 +32,7 @@ When live GitHub access is available, consult `https://github.com/OneHQ/tanka-li
 Use this path when the user describes desired Kubernetes resources or behavior.
 
 1. Identify every Kubernetes resource required and the relationships among them.
-2. Check `references/api-reference.md` for a matching OneHQ helper.
+2. Find a matching OneHQ helper in the resolved implementation; use `references/api-reference.md` for bundled examples only when compatible.
 3. Start native resources with `k.<api>.<version>.<kind>.new(...)` when a typed constructor exists.
 4. Add the OneHQ helper patch, usually with `+ kone.<helper>(...)`.
 5. Add namespace, annotations, labels, sync-wave, AVP/Vault metadata, and unsupported native fields as renderer-level patches.
@@ -46,7 +47,7 @@ Use this path when the user describes desired Kubernetes resources or behavior.
 Use this path when the user provides existing Jsonnet/Tanka code.
 
 1. Preserve the existing architecture and naming unless the user asks for redesign.
-2. Compare helper calls against `references/api-reference.md` and, when needed, the exact implementation in `references/library-source.md`.
+2. Compare calls against the pinned implementation, using snapshot summaries only where compatible. Trace the requested input through dependent components before choosing the edit location.
 3. Identify the smallest concrete problem before proposing changes.
 4. Do not replace library helpers with raw Kubernetes objects merely because raw YAML would be easier.
 5. Do not invent helper parameters. If a field is unsupported, patch the generated native resource at the correct Kubernetes path.
@@ -116,28 +117,9 @@ Do not add `kone.generateContainers(...)` again to Deployment, StatefulSet, Job,
 
 ## Scheduling
 
-Use the bundled source's current scheduling shape, not the older constructor-guide signature.
+Choose the interface from resolved source. Some consumers correctly use `serviceLevel: 'Basic'` with a `resources` map and three-argument helpers. The bundled snapshot uses `serviceLevel: { organization, mode, definitions }` and two-argument helpers. Both are revision-specific contracts; do not convert between them as incidental cleanup.
 
-A `serviceLevel` object contains at least:
-
-```jsonnet
-serviceLevel: {
-  organization: 'onehq',
-  mode: 'Basic',
-  definitions: {
-    backend: {
-      Basic: 'spot',
-      Standard: 'ondemand',
-      matchExpressions: [],
-      tolerations: [],
-    },
-  },
-},
-```
-
-`fetchServiceLevel(name, serviceLevel)` and `getTolerations(name, serviceLevel)` select a definition whose key occurs in the resource name. `getAffinity(name, values)` reads `values.serviceLevel`. Keep names and definition keys aligned or scheduling can render with empty match expressions/tolerations.
-
-Do not use the stale pattern `resources: scheduling` to drive affinity for this bundled revision.
+Read `references/library-compatibility.md` for both shapes and their signatures. Check name-to-policy matching and rendered affinity/tolerations; failure handling differs by revision. Deployment names containing `debug` can alter labels and replica counts, so verify Service selectors when names change.
 
 ## Environment variables and secrets
 
@@ -187,20 +169,23 @@ Do not force this exact helper into projects that already have a different equiv
 
 ## Output format
 
-By default, return:
+For code requests, return:
 
 1. The complete Jsonnet change or declaration.
 2. A concise explanation of which `kone` helpers are used and why native patches are needed.
 3. Any important caveat that affects rendered behavior.
 
+For analysis, return findings and source references. For repository edits, summarize the changed locations, expected/actual differences and verification; provide complete snippets when requested. Keep proposed architecture separate from implemented behavior.
+
 Do not dump rendered YAML by default.
 
-When the user explicitly asks for rendered YAML, or when an accessible repository/environment makes validation possible:
+When a repository/environment is available, run its applicable offline render and relationship checks even if the requested output is only Jsonnet. For a standalone snippet with no environment, state any validation limit that affects confidence. Use the existing commands rather than inventing an environment.
 
 1. Determine the exact Tanka environment path and required ext vars/codes from the project.
-2. Run `tk show <environment> ...` if execution tools and dependencies are available.
-3. Report validation errors rather than inventing output.
-4. If `tk show` succeeds, use the rendered manifests to verify selectors, namespaces, pod specs, affinity/tolerations, and native patch placement.
+2. Run the documented render/check commands when tools and dependencies are available. Capture raw manifests in memory or use the app's existing redaction mechanism; never publish Secret payloads or credential values.
+3. Confirm that rendering produced manifests, not just a zero exit code. Headless `tk show` can refuse redirected output unless `--dangerous-allow-redirect` is supplied; use that flag only with controlled capture/redaction.
+4. Verify intended image consumers, identities/selectors, namespaces, references, metadata, Pod specs, affinity/tolerations and native patch placement. Allow documented revision-derived Job names and update their dependent gates.
+5. Report exact commands, actual results and unexecuted checks. Separate offline relationships from image contents, external-resource existence and runtime readiness.
 
 Never claim code was rendered or validated unless it actually was.
 
@@ -209,7 +194,7 @@ Never claim code was rendered or validated unless it actually was.
 Before finalizing code, check:
 
 - Native constructor + OneHQ helper composition is appropriate.
-- Helper name and argument count match the current source.
+- Helper name and argument count match the resolved target source.
 - Required values exist.
 - Array-returning helpers are handled as arrays.
 - Container definitions are objects and have distinct `name` fields.
@@ -220,14 +205,18 @@ Before finalizing code, check:
 - Unsupported Job/CronJob/container/Service/Ingress fields are native patches.
 - Environment variable alias behavior is understood.
 - Volume source is supported or explicitly patched.
-- `serviceLevel.definitions` can match the resource name.
+- Resource names match the resolved scheduling policy map or definitions.
 - Secrets do not contain accidental plaintext where Kubernetes `data` is expected.
 - Namespace is added only to namespaced resources.
 - Existing project abstractions are reused rather than duplicated.
+- Canonical shared changes reach all intended consumers; component-local overrides are described separately.
+- Supported optional components and externally owned resources retain consistent references; no capability is inferred from an ignored input field.
 
 ## References
 
-- Read `references/api-reference.md` for helper signatures, required/optional inputs, return shapes, and important implementation behavior.
-- Read `references/patterns.md` for composition examples and common review failures.
-- Read `references/library-source.md` when exact behavior matters or a summary is insufficient.
-- Read `references/constructor-guide-reference.txt` only when useful for broader constructor examples; reconcile it against the bundled source before trusting a signature.
+- Read `references/application-workflow.md` for file responsibilities, input tracing and application validation.
+- Read `references/library-compatibility.md` when selecting guidance for an app pin that differs from the snapshot.
+- Read `references/api-reference.md` for bundled helper signatures, inputs, return shapes and implementation behavior.
+- Read `references/patterns.md` for bundled composition examples and common review failures.
+- Read `references/library-source.md` for exact bundled behavior; inspect resolved consumer source first for application work.
+- Read `references/constructor-guide-reference.txt` only for useful broader examples; reconcile its signatures against the target implementation.

@@ -1,5 +1,7 @@
 # Jsonnet Patterns and Review Guide
 
+Examples describe bundled snapshot `cb49c83a43cb04e05da5e820c6fe56faed32bf73`. Preserve the consumer's pinned interface and existing layout; inspect [library-compatibility.md](library-compatibility.md) for differing revisions and [application-workflow.md](application-workflow.md) for application input/placement decisions.
+
 ## Contents
 
 - Baseline renderer pattern
@@ -170,7 +172,7 @@ Do not try `kone.generateSecrets(...) + namespaced`.
 
 ## Scheduling
 
-Bundled source uses `serviceLevel`, not the older `resources` scheduling map.
+This bundled snapshot uses a `serviceLevel` object. The older `resources` scheduling map is valid for consumers pinned to implementations that support it; see [library-compatibility.md](library-compatibility.md).
 
 ```jsonnet
 local serviceLevel = {
@@ -244,13 +246,13 @@ values.job + { backoffLimit: 0 }
 
 Patch the nested Pod spec manually.
 
-### Wrong: stale service-level call
+### Wrong for the bundled snapshot: three-argument scheduling call
 
 ```jsonnet
 kone.fetchServiceLevel(name, resources, serviceLevel)
 ```
 
-Bundled source signature:
+This call is valid for the inspected reference app pin. The bundled source instead has this signature:
 
 ```jsonnet
 kone.fetchServiceLevel(name, serviceLevel)

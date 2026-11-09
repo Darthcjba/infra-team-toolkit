@@ -1,0 +1,212 @@
+{
+  "example": "shared-backend-image",
+  "status": "passed",
+  "app_revision": "4a494240abc9783c6faf47db6f0f8f05e441dd40",
+  "onehq_revision": "10a46abb03c8a82ecc9479b036a74d5b79b00f4f",
+  "toolkit_revision": "d96bdca70e3daad457fc7f5d0239083fa37af009",
+  "toolkit_working_tree_dirty": true,
+  "example_script_sha256": "e18cd0a3ba20909545a7cead95d2dde05b42702ab08ffcb4e24d08605c30356f",
+  "tanka_version": "0.36.3",
+  "python_version": "3.14.3",
+  "cases": [
+    {
+      "target": "environments/e2e-check",
+      "case": "tag",
+      "selected_backend": {
+        "repository": "docker.io/onehq/agencieshq",
+        "tag": "toolkit-step4"
+      },
+      "resources": 36,
+      "image_consumers": [
+        "backend",
+        "goodjob",
+        "sidekiq",
+        "dbprepare",
+        "dbseed",
+        "dbseed/init:backend-ready"
+      ],
+      "renamed_jobs": {
+        "dbprepare": {
+          "before": "e2e-check-prepare-d6a5bc4ca268",
+          "after": "e2e-check-prepare-3bf13f23e213"
+        },
+        "dbseed": {
+          "before": "e2e-check-seed-d6a5bc4ca268",
+          "after": "e2e-check-seed-3bf13f23e213"
+        },
+        "e2eRunner": {
+          "before": "e2e-check-runner-09e1c7e18b2d",
+          "after": "e2e-check-runner-160b1c032bf8"
+        }
+      },
+      "all_other_fields_unchanged": true,
+      "status": "passed"
+    },
+    {
+      "target": "environments/e2e-check",
+      "case": "digest-with-tag",
+      "selected_backend": {
+        "repository": "docker.io/onehq/agencieshq",
+        "tag": "ignored-by-digest",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "resources": 36,
+      "image_consumers": [
+        "backend",
+        "goodjob",
+        "sidekiq",
+        "dbprepare",
+        "dbseed",
+        "dbseed/init:backend-ready"
+      ],
+      "renamed_jobs": {
+        "dbprepare": {
+          "before": "e2e-check-prepare-d6a5bc4ca268",
+          "after": "e2e-check-prepare-13b57ee4e1ef"
+        },
+        "dbseed": {
+          "before": "e2e-check-seed-d6a5bc4ca268",
+          "after": "e2e-check-seed-13b57ee4e1ef"
+        },
+        "e2eRunner": {
+          "before": "e2e-check-runner-09e1c7e18b2d",
+          "after": "e2e-check-runner-eb0e1b08884c"
+        }
+      },
+      "all_other_fields_unchanged": true,
+      "status": "passed"
+    },
+    {
+      "target": "environments/e2e-check",
+      "case": "backend-only-control",
+      "shared_change_check": "rejected as intended",
+      "goodjob": "retains baseline image",
+      "status": "passed"
+    },
+    {
+      "target": "environments/e2e-check",
+      "case": "fixed-execution-id",
+      "resources": 37,
+      "execution_id": "toolkit-step4",
+      "hooks": [
+        "dbprepare",
+        "dbseed",
+        "e2eRunner",
+        "stopDbConsumers"
+      ],
+      "renamed_jobs": {},
+      "all_other_fields_unchanged": true,
+      "status": "passed"
+    },
+    {
+      "target": "examples/prs/pr-xxx",
+      "case": "tag",
+      "selected_backend": {
+        "repository": "docker.io/onehq/agencieshq",
+        "tag": "toolkit-step4"
+      },
+      "resources": 36,
+      "image_consumers": [
+        "backend",
+        "goodjob",
+        "sidekiq",
+        "dbprepare",
+        "dbseed",
+        "dbseed/init:backend-ready"
+      ],
+      "renamed_jobs": {
+        "dbprepare": {
+          "before": "pr-xxx-prepare-f96c75843138",
+          "after": "pr-xxx-prepare-3bf13f23e213"
+        },
+        "dbseed": {
+          "before": "pr-xxx-seed-f96c75843138",
+          "after": "pr-xxx-seed-3bf13f23e213"
+        },
+        "e2eRunner": {
+          "before": "pr-xxx-runner-1d095a89d7fa",
+          "after": "pr-xxx-runner-6fa3e9fd0834"
+        }
+      },
+      "all_other_fields_unchanged": true,
+      "status": "passed"
+    },
+    {
+      "target": "examples/prs/pr-xxx",
+      "case": "digest-with-tag",
+      "selected_backend": {
+        "repository": "docker.io/onehq/agencieshq",
+        "tag": "ignored-by-digest",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "resources": 36,
+      "image_consumers": [
+        "backend",
+        "goodjob",
+        "sidekiq",
+        "dbprepare",
+        "dbseed",
+        "dbseed/init:backend-ready"
+      ],
+      "renamed_jobs": {
+        "dbprepare": {
+          "before": "pr-xxx-prepare-f96c75843138",
+          "after": "pr-xxx-prepare-13b57ee4e1ef"
+        },
+        "dbseed": {
+          "before": "pr-xxx-seed-f96c75843138",
+          "after": "pr-xxx-seed-13b57ee4e1ef"
+        },
+        "e2eRunner": {
+          "before": "pr-xxx-runner-1d095a89d7fa",
+          "after": "pr-xxx-runner-328b97396370"
+        }
+      },
+      "all_other_fields_unchanged": true,
+      "status": "passed"
+    },
+    {
+      "target": "examples/prs/pr-xxx",
+      "case": "backend-only-control",
+      "shared_change_check": "rejected as intended",
+      "goodjob": "retains baseline image",
+      "status": "passed"
+    },
+    {
+      "target": "examples/prs/pr-xxx",
+      "case": "fixed-execution-id",
+      "resources": 37,
+      "execution_id": "toolkit-step4",
+      "hooks": [
+        "dbprepare",
+        "dbseed",
+        "e2eRunner",
+        "stopDbConsumers"
+      ],
+      "renamed_jobs": {},
+      "all_other_fields_unchanged": true,
+      "status": "passed"
+    }
+  ],
+  "checks": [
+    "actual main matches composed baseline",
+    "effective and rendered images",
+    "eight intended Service relationships",
+    "Job completion gates",
+    "namespaces",
+    "shared/private tmp volumes",
+    "full resource equality outside permitted differences"
+  ],
+  "application_validation": {
+    "command": "sh scripts/validate.sh",
+    "workspace": "temporary local clone of pinned commit and copied local vendor",
+    "tests": 107,
+    "status": "passed"
+  },
+  "application_working_tree": "clean before and after",
+  "limits": [
+    "synthetic image references; not registry/image-content verification",
+    "local resolved dependencies; no cluster or runtime checks",
+    "not a Cline pilot"
+  ]
+}

@@ -1,6 +1,6 @@
 # tanka-lib-k8-onehq API Reference
 
-This reference is derived from the bundled library source snapshot. The source snapshot is authoritative over the separately supplied constructor guide.
+This reference describes bundled snapshot `cb49c83a43cb04e05da5e820c6fe56faed32bf73`. It is authoritative over the separately supplied constructor guide for that snapshot; a consumer's locked/resolved implementation takes precedence for application work. Read [library-compatibility.md](library-compatibility.md) before applying these signatures to another revision. In particular, the reference app correctly uses an older scheduling interface.
 
 ## Contents
 
